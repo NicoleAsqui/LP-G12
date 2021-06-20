@@ -34,7 +34,6 @@ reserved = {
     "throw": "TRHOW",
     "void": "VOID",
     "try": "TRY",
-
 }
 
 # Tokens
@@ -81,7 +80,6 @@ tokens = [
     "ASIG_BOR",
     "ASIG_BAN",
     "ASIG_XOR",
-
 
 ] + list(reserved.values())
 t_INTERROGACION = r"\?"
