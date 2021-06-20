@@ -1,11 +1,13 @@
 import ply.lex as lex
 
 # Aporte Nicole Asqui
+# SPRINT 1: Listar todos los componentes lexicos
+# Variables, palabras reservadas, simbolos, caracteres especiales
 
+# Lista de palabras reservadas
 reserved = {
     "var": "VAR",
     "break": "BREAK",
-    "continue": "CONTINUE",
     "case": "CASE",
     "else": "ELSE",
     "if": "IF",
@@ -15,15 +17,27 @@ reserved = {
     "return": "RETURN",
     "let": "LET",
     "new": "NEW",
-    "while":"WHILE",
-    "function":"FUNCTION",
-    "switch":"SWITCH",
+    "while": "WHILE",
+    "function": "FUNCTION",
+    "switch": "SWITCH",
     "typeof": "TYPEOF",
-    "default" : "DEFAULT",
-    "push" : "PUSH",
-    "pop" : "POP"
+    "default": "DEFAULT",
+    "push": "PUSH",
+    "pop": "POP",
+    "catch": "CATCH",
+    "const": "CONST",
+    "continue": "CONTINUE",
+    "debugger": "DEBUGGER",
+    "finally": "FINALY",
+    "instanceof": "INSTANCEOF",
+    "this": "THIS",
+    "throw": "TRHOW",
+    "void": "VOID",
+    "try": "TRY",
+
 }
 
+# Tokens
 tokens = [
     "VARIABLE",
     "CONSTANTE",
@@ -70,13 +84,13 @@ tokens = [
 
 
 ] + list(reserved.values())
-t_INTERROGACION=r"\?"
-t_PUNTO=r"\."
-t_AND=r"&&"
-t_OR=r"\|\|"
-t_IGUAL= r"="
-t_COMP_IGUAL=r"=="
-t_DIFERENTE=r"!="
+t_INTERROGACION = r"\?"
+t_PUNTO = r"\."
+t_AND = r"&&"
+t_OR = r"\|\|"
+t_IGUAL = r"="
+t_COMP_IGUAL = r"=="
+t_DIFERENTE = r"!="
 t_CIZQ = r"\["
 t_CDER = r"\]"
 t_LIZQ = r"\{"
@@ -87,13 +101,13 @@ t_PIZQ = r"\("
 t_PDER = r"\)"
 t_MAS = r"\+"
 t_ENTERO = r"\d+"
-t_RESTA=r"-"
-t_MENOR=r"<"
-t_MAYOR=r">"
-t_CADENA= r'"[a-zA-Z0-9\s,]*"'
-t_PROD =r"\*"
+t_RESTA = r"-"
+t_MENOR = r"<"
+t_MAYOR = r">"
+t_CADENA = r'"[a-zA-Z0-9\s,]*"'
+t_PROD = r"\*"
 t_POTENCIA = r"\*\*"
-t_DIVISION=r"/"
+t_DIVISION = r"/"
 t_MOD = r'%'
 t_NOT = r'\!'
 t_ASIG = r'\='
@@ -104,7 +118,7 @@ t_EQ_ESTRIC = r'==='
 t_NOE_ESTRIC = r'\!==='
 
 
-#Expresiones Regulares asignacion
+# Expresiones Regulares asignacion
 t_ASIG_SUMA = r'\+='
 t_ASIG_MEN = r'-='
 t_ASIG_DIV = r'/='
@@ -113,14 +127,25 @@ t_ASIG_BOR = r'\|='
 t_ASIG_BAN = r'\&='
 t_ASIG_XOR = r'\^='
 
+def t_COMENTARIO_MULTILINEA(t):
+    r'/\*(.|\n)*?\*/'
+    t.lexer.lineno += t.value.count('\n')
+
+def t_COMENTARIO_EN_LINEA(t):
+    r'//.*\n'
+    t.lexer.lineno += 1
+
+
 def t_CONSTANTE(t):
     r"[A-Z][a-zA-Z0-9_]*"
     t.type = reserved.get(t.value, 'CONSTANTE')  # Check for reserved words
     return t
+
 def t_VARIABLE(t):
     r"[a-z_][a-zA-Z0-9_]*"
     t.type = reserved.get(t.value, 'VARIABLE')  # Check for reserved words
     return t
+
 def t_newline(t):
     r"\n+"
     t.lexer.lineno += len(t.value)
@@ -178,6 +203,6 @@ def leer(file):
         if len(linea) == 0:
             break
 
-archivo = open("../archivos/nicole_asqui.txt")
+archivo = open("../archivos/grupo12.txt")
 
 leer(archivo)
