@@ -6,6 +6,9 @@ import ply.lex as lex
 
 # Lista de palabras reservadas
 reserved = {
+    "toUpperCase": "Upper",
+    "Index Of": "INOF",
+    "length": "LEN",
     "var": "VAR",
     "break": "BREAK",
     "case": "CASE",
@@ -80,6 +83,17 @@ tokens = [
     "ASIG_BOR",
     "ASIG_BAN",
     "ASIG_XOR",
+    "COMILL",
+    "ASIG_RESDU",
+    "ASIG_EXPO",
+    "ASIG_DE_I",
+    "ASIG_DE_D",
+    "ASIG_DSG",
+    "ASIG_OR",
+    "ASIG_ANU",
+    "COMENTARIO_EN_LINEA",
+    "COMENTARIO_MULTILINEA",
+
 
 ] + list(reserved.values())
 t_INTERROGACION = r"\?"
@@ -107,16 +121,16 @@ t_PROD = r"\*"
 t_POTENCIA = r"\*\*"
 t_DIVISION = r"/"
 t_MOD = r'%'
-t_NOT = r'\!'
 t_ASIG = r'\='
 t_COLON = r'\:'
 t_INC = r'\+\+'
 t_DEC = r'--'
 t_EQ_ESTRIC = r'==='
 t_NOE_ESTRIC = r'\!==='
+t_COMILL = r'\"'
 
 
-# Expresiones Regulares asignacion
+# Expresiones Regulares Asignacion
 t_ASIG_SUMA = r'\+='
 t_ASIG_MEN = r'-='
 t_ASIG_DIV = r'/='
@@ -124,20 +138,37 @@ t_ASIG_MUL = r'\*='
 t_ASIG_BOR = r'\|='
 t_ASIG_BAN = r'\&='
 t_ASIG_XOR = r'\^='
+t_ASIG_RESDU = r'%='
+t_ASIG_EXPO = r'\*\*='
+t_ASIG_DE_I = r'<<='
+t_ASIG_DE_D = r'>>='
+t_ASIG_DSG = r'>>>='
+t_ASIG_OR = r'\|\|='
+T_ASIG_ANU = r'??='
+
+
 
 def t_COMENTARIO_MULTILINEA(t):
     r'/\*(.|\n)*?\*/'
     t.lexer.lineno += t.value.count('\n')
+    return t
 
 def t_COMENTARIO_EN_LINEA(t):
     r'//.*\n'
     t.lexer.lineno += 1
+    return t
 
 
 def t_CONSTANTE(t):
-    r"[A-Z][a-zA-Z0-9_]*"
+    r"[A-Z][a-zA-Z0-9_!]*"
     t.type = reserved.get(t.value, 'CONSTANTE')  # Check for reserved words
     return t
+
+def t_NOT(t):
+    r'(![a-zA-Z]\w*)'
+    t.type = reserved.get(t.value, 'NOT')
+    return t
+
 
 def t_VARIABLE(t):
     r"[a-z_][a-zA-Z0-9_]*"

@@ -1,3 +1,11 @@
+var c = str.length
+var str = "Hello World!";
+var res = str.toUpperCase();
+
+/*hhhh*/
+//hola
+
+c |= 10;
 3**4
 10/2
 for (var i = 0; i < 9; i++) {
