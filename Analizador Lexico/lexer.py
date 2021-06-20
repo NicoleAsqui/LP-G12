@@ -51,7 +51,22 @@ tokens = [
     "PIZQ",
     "PDER",
     "COMA",
-    "PCOMA"
+    "PCOMA",
+    "MOD",
+    "NOT",
+    "ASIG",
+    "COLON",
+    "INC",
+    "DEC",
+    "EQ_ESTRIC",
+    "NOE_ESTRIC",
+    "ASIG_SUMA",
+    "ASIG_MEN",
+    "ASIG_DIV",
+    "ASIG_MUL",
+    "ASIG_BOR",
+    "ASIG_BAN",
+    "ASIG_XOR",
 
 
 ] + list(reserved.values())
@@ -79,6 +94,24 @@ t_CADENA= r'"[a-zA-Z0-9\s,]*"'
 t_PROD =r"\*"
 t_POTENCIA = r"\*\*"
 t_DIVISION=r"/"
+t_MOD = r'%'
+t_NOT = r'\!'
+t_ASIG = r'\='
+t_COLON = r'\:'
+t_INC = r'\+\+'
+t_DEC = r'--'
+t_EQ_ESTRIC = r'==='
+t_NOE_ESTRIC = r'\!==='
+
+
+#Expresiones Regulares asignacion
+t_ASIG_SUMA = r'\+='
+t_ASIG_MEN = r'-='
+t_ASIG_DIV = r'/='
+t_ASIG_MUL = r'\*='
+t_ASIG_BOR = r'\|='
+t_ASIG_BAN = r'\&='
+t_ASIG_XOR = r'\^='
 
 def t_CONSTANTE(t):
     r"[A-Z][a-zA-Z0-9_]*"
