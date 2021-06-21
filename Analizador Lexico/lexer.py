@@ -6,9 +6,6 @@ import ply.lex as lex
 
 # Lista de palabras reservadas
 reserved = {
-    "toUpperCase": "Upper",
-    "Index Of": "INOF",
-    "length": "LEN",
     "var": "VAR",
     "break": "BREAK",
     "case": "CASE",
@@ -37,6 +34,8 @@ reserved = {
     "throw": "TRHOW",
     "void": "VOID",
     "try": "TRY",
+    "console": "CONSOLE",
+    "log": "LOG"
 }
 
 # Tokens
@@ -92,7 +91,7 @@ tokens = [
     "ASIG_OR",
     "ASIG_ANU",
     "COMENTARIO_EN_LINEA",
-    "COMENTARIO_MULTILINEA",
+    "COMENTARIO_MULTILINEA"
 
 
 ] + list(reserved.values())
@@ -128,6 +127,8 @@ t_DEC = r'--'
 t_EQ_ESTRIC = r'==='
 t_NOE_ESTRIC = r'\!==='
 t_COMILL = r'\"'
+t_COMENTARIO_EN_LINEA = r'//.*'
+
 
 
 # Expresiones Regulares Asignacion
@@ -149,14 +150,10 @@ T_ASIG_ANU = r'??='
 
 
 def t_COMENTARIO_MULTILINEA(t):
-    r'/\*(.|\n)*?\*/'
+    r"/\*(.|\n)*?\*/"
     t.lexer.lineno += t.value.count('\n')
     return t
 
-def t_COMENTARIO_EN_LINEA(t):
-    r'//.*\n'
-    t.lexer.lineno += 1
-    return t
 
 
 def t_CONSTANTE(t):
