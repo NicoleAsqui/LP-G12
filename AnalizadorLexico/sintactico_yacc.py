@@ -19,6 +19,23 @@ p_operadorMat
 p_operadorComp
 p_sentenciaIf
 
+Reglas agregadas por Briggitte Lopez
+p_declarationSwitch
+p_cuerpoSwitch
+p_case
+p_default
+p_console
+p_sentenciaFor
+p_condicionFOR
+p_busquedaFOR
+p_listaFOR
+p_variablesFOR
+p_IncDecremento
+p_crearVariables
+p_instruccion
+p_crearObjeto
+p_crearFunction
+p_cuerpoFunction
 '''
 
 def p_codigo(p):
@@ -31,6 +48,11 @@ def p_algoritmo(p):
                     | sentenciaWHILE
                     | sentenciaIf
                     | comentarios
+                    | switch
+                    | sentenciaFor
+                    | crearVariable
+                    | crearObjeto
+                    | crearFunction
 
     '''
 
@@ -105,6 +127,65 @@ def p_comentarios(p):
                     | COMENTARIO_MULTILINEA
 
     '''
+
+def p_declarationSwitch(p):
+    ''' switch : SWITCH PIZQ expresion PDER cuerpoSwitch'''
+
+def p_cuerpoSwitch(p):
+    ''' cuerpoSwitch : case
+                    | default'''
+
+def p_case(p):
+    ''' case : CASE COMILL valor COMILL COLON console BREAK PCOMA'''
+
+def p_default(p):
+    ''' default : DEFAULT COLON console'''
+
+def p_console(p):
+    ''' console : CONSOLE PUNTO LOG PCOMA'''
+
+def p_sentenciaFor(p):
+    '''sentenciaFor : FOR condicionFor codigo
+    '''
+
+def p_condicionFOR(p):
+    '''condicionFor : PIZQ busquedaFOR PDER '''
+
+def p_busquedaFOR(p):
+    ''' busquedaFOR : listaFor
+                        | variablesFor'''
+
+def p_listaFOR(p):
+    ''' listaFor : variables IN variables'''
+
+def p_variablesFOR(p):
+    ''' variablesFor : asignacion PCOMA comparacion PCOMA VARIABLE incDecremento'''
+
+
+def p_IncDecremento(p):
+    ''' incDecremento : INC
+                        | DEC'''
+
+def p_crearVariables(p):
+    ''' crearVariable : instruccionVL VARIABLE IGUAL CONSTANTE
+                                            | ENTERO
+                                            | CADENA'''
+
+def p_instruccion(p):
+    ''' instruccionVL : VAR
+                        | LET '''
+
+def p_crearObjeto(p):
+    ''' crearObjeto : CONST VARIABLE NEW VARIABLE '''
+
+def p_crearFunction(p):
+    ''' crearFunction : FUNCTION variables PIZQ cuerpoFunction PDER'''
+
+def p_cuerpoFunction(p):
+    ''' cuerpoFunction : THIS PUNTO asignacion'''
+
+
+
 
 # Error rule for syntax errors
 def p_error(p):
