@@ -56,7 +56,6 @@ tokens = [
     "POTENCIA",
     "DIVISION",
     "PROD",
-    "COMENTARIO",
     "PUNTO",
     "INTERROGACION",
     "CIZQ",
@@ -197,7 +196,7 @@ def analizar(data):
         tok = lexer.token()
         if not tok:
             break  # No more input
-        print(tok)
+        #print(tok)
 
 
 def crearArchivo(data):
@@ -224,7 +223,7 @@ def leerText(txt):
 '''
 def leer(file):
     for linea in file:
-        print(">>" + linea)
+        #print(">>" + linea)
         analizar(linea)
         if len(linea) == 0:
             break
