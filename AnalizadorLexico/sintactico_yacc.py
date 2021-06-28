@@ -22,6 +22,7 @@ p_sentenciaIf
 p_error
 p_conjunto
 p_estructuraArreglo
+p_metodosArreglos
 
 Reglas agregadas por Briggitte Lopez
 p_declarationSwitch
@@ -61,6 +62,7 @@ def p_algoritmo(p):
                     | sentenciaOR
                     | sentenciaAND
                     | comparaciones
+                    | metodosArreglos
 
     '''
 
@@ -70,6 +72,12 @@ def p_sentenciaWhile(p):
 
 def p_estructuraArreglo(p):
     ''' estructuraArreglo : VAR variables IGUAL CIZQ conjunto CDER PCOMA
+    '''
+
+def p_metodosArreglos(p):
+    ''' metodosArreglos : variables PUNTO PUSH PIZQ expresion PDER PCOMA
+                        | variables PUNTO POP PIZQ  PDER PCOMA
+                        | variables PUNTO JOIN PIZQ  PDER PCOMA
     '''
 
 def p_conjunto(p):

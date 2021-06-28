@@ -13,3 +13,6 @@ if (compraRealizada == true) {
 } else {
   var subsidioAdicional = 5;
 }
+persona.push(variable);
+persona.pop();
+fruits.join();

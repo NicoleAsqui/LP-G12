@@ -23,6 +23,7 @@ reserved = {
     "typeof": "TYPEOF",
     "default": "DEFAULT",
     "push": "PUSH",
+    "join": "JOIN",
     "pop": "POP",
     "catch": "CATCH",
     "const": "CONST",
