@@ -63,7 +63,18 @@ def p_algoritmo(p):
                     | sentenciaAND
                     | comparaciones
                     | metodosArreglos
+                    | sentenciaDo
+                    | estructuraMap
 
+    '''
+
+def p_sentenciaDO(p):
+    '''sentenciaDo : DO LIZQ codigo LDER WHILE PIZQ comparacion PDER PCOMA
+    '''
+
+def p_estructuraMap(p):
+    ''' estructuraMap : VAR variables IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
+                    | LET variables IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
     '''
 
 def p_sentenciaWhile(p):
@@ -86,8 +97,25 @@ def p_conjunto(p):
     '''
 
 def p_asignacion(p):
-    'asignacion : VAR variables IGUAL expresion PCOMA'
+    'asignacion : VAR variables tipoasignacion expresion PCOMA'
 
+def p_tipoasignacion(p):
+    '''tipoasignacion : IGUAL
+                    | ASIG_SUMA
+                    | ASIG_MEN
+                    | ASIG_DIV
+                    | ASIG_MUL
+                    | ASIG_BOR
+                    | ASIG_BAN
+                    | ASIG_XOR
+                    | ASIG_RESDU
+                    | ASIG_EXPO
+                    | ASIG_DE_I
+                    | ASIG_DE_D
+                    | ASIG_DSG
+                    | ASIG_OR
+                    | ASIG_ANU
+    '''
 
 def p_expresion_aritmetica(p):
     '''expresion : valor operadorMat expresion

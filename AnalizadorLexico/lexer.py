@@ -38,7 +38,10 @@ reserved = {
     "console": "CONSOLE",
     "log": "LOG",
     "true":"TRUE",
-    "false":"FALSE"
+    "false":"FALSE",
+    "Set":"SET",
+    "add":"ADD",
+    "has":"HAS",
 }
 
 # Tokens
@@ -93,7 +96,8 @@ tokens = [
     "ASIG_OR",
     "ASIG_ANU",
     "COMENTARIO_EN_LINEA",
-    "COMENTARIO_MULTILINEA"
+    "COMENTARIO_MULTILINEA",
+    "DERECHA"
 
 
 ] + list(reserved.values())
@@ -129,7 +133,7 @@ t_EQ_ESTRIC = r'==='
 t_NOE_ESTRIC = r'\!==='
 t_COMILL = r'\"'
 t_COMENTARIO_EN_LINEA = r'//.*'
-
+t_DERECHA = r'\=>'
 
 
 # Expresiones Regulares Asignacion

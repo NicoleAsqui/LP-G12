@@ -16,3 +16,7 @@ if (compraRealizada == true) {
 persona.push(variable);
 persona.pop();
 fruits.join();
+
+do {var c = 1;} while (c>0);
+let conjunto = new Set(["hola","mundo"]);
+var c /= 3;
