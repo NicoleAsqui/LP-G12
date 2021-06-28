@@ -65,6 +65,7 @@ def p_algoritmo(p):
                     | metodosArreglos
                     | sentenciaDo
                     | estructuraMap
+                    | funcionesMap
 
     '''
 
@@ -77,6 +78,11 @@ def p_estructuraMap(p):
                     | LET variables IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
     '''
 
+def p_funcionesMap(p):
+    ''' funcionesMap : variables PUNTO ADD PIZQ expresion PDER PCOMA
+                    | variables PUNTO HAS PIZQ expresion PDER PCOMA
+
+    '''
 def p_sentenciaWhile(p):
     '''sentenciaWHILE : WHILE PIZQ comparacion PDER LIZQ codigo LDER
     '''
