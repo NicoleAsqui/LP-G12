@@ -66,6 +66,9 @@ def p_algoritmo(p):
                     | sentenciaDo
                     | estructuraMap
                     | funcionesMap
+                    | metodosTupla
+                    | console
+
 
     '''
 
@@ -192,6 +195,12 @@ def p_comentarios(p):
 
     '''
 
+def p_metodosTupla(p):
+    ''' metodosTupla : variables PUNTO INDEX PIZQ expresion PDER PCOMA
+                        | variables PUNTO COUNT PIZQ variables PDER PCOMA
+                        | LEN PIZQ variables PDER PCOMA
+    '''
+
 def p_declarationSwitch(p):
     ''' switch : SWITCH PIZQ expresion PDER cuerpoSwitch'''
 
@@ -200,35 +209,21 @@ def p_cuerpoSwitch(p):
                     | default'''
 
 def p_case(p):
-    ''' case : CASE COMILL valor COMILL COLON console BREAK PCOMA'''
+    ''' case : CASE COMILL valor COMILL COLON codigo BREAK PCOMA'''
 
 def p_default(p):
-    ''' default : DEFAULT COLON console '''
+    ''' default : DEFAULT COLON codigo '''
 
 def p_console(p):
-    ''' console : CONSOLE PUNTO LOG PIZQ valor PDER PCOMA '''
+    ''' console : CONSOLE PUNTO LOG PIZQ  PDER PCOMA'''
 
 def p_sentenciaFor(p):
-    '''sentenciaFor : FOR condicionFor codigo
+    '''sentenciaFor : FOR PIZQ condicionFor PDER LIZQ codigo LDER
     '''
 
 def p_condicionFOR(p):
-    '''condicionFor : PIZQ busquedaFOR PDER '''
+    '''condicionFor : asignacion PCOMA comparacion PCOMA variables DEC '''
 
-def p_busquedaFOR(p):
-    ''' busquedaFOR : listaFor
-                        | variablesFor'''
-
-def p_listaFOR(p):
-    ''' listaFor : variables IN variables'''
-
-def p_variablesFOR(p):
-    ''' variablesFor : asignacion PCOMA comparacion PCOMA VARIABLE incDecremento'''
-
-
-def p_IncDecremento(p):
-    ''' incDecremento : INC
-                        | DEC'''
 
 def p_crearVariables(p):
     ''' crearVariable : instruccionVL VARIABLE IGUAL CONSTANTE
@@ -237,16 +232,16 @@ def p_crearVariables(p):
 
 def p_instruccion(p):
     ''' instruccionVL : VAR
-                        | LET '''
+                    | LET '''
 
 def p_crearObjeto(p):
-    ''' crearObjeto : CONST VARIABLE NEW VARIABLE '''
+    ''' crearObjeto : CONST variables IGUAL NEW OBJECT PIZQ PDER PCOMA '''
 
 def p_crearFunction(p):
-    ''' crearFunction : FUNCTION variables PIZQ cuerpoFunction PDER'''
+    ''' crearFunction : FUNCTION variables PIZQ conjunto PDER LIZQ cuerpoFunction LDER'''
 
 def p_cuerpoFunction(p):
-    ''' cuerpoFunction : THIS PUNTO asignacion'''
+    ''' cuerpoFunction : THIS PUNTO variables IGUAL variables PCOMA'''
 
 
 

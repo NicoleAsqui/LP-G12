@@ -23,3 +23,14 @@ var c /= 3;
 c.add("hola");
 s.has(15);
 u9.forEach( (x) => {console.log(x);});
+
+function Car(make, model, year) {
+  this.make = make;
+}
+
+const objeto = new Object();
+
+var tupla = [ "Julio" , 22 , true ] ;
+tupla.index(4);
+tupla.count(dsdfs);
+len(tupla);
