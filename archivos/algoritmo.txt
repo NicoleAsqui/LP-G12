@@ -4,3 +4,4 @@ var numero_2 = "sdfsdfsd" ;
 var numero_2 = false ;
 var persona = [ "Julio" , 22 , true ] ;
 a && b ;
+a > b && a > b;

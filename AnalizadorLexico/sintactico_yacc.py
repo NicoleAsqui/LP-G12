@@ -60,6 +60,7 @@ def p_algoritmo(p):
                     | estructuraArreglo
                     | sentenciaOR
                     | sentenciaAND
+                    | comparaciones
 
     '''
 
@@ -79,6 +80,7 @@ def p_conjunto(p):
 def p_asignacion(p):
     'asignacion : VAR variables IGUAL expresion PCOMA'
 
+
 def p_expresion_aritmetica(p):
     '''expresion : valor operadorMat expresion
                 | PIZQ valor operadorMat expresion PDER
@@ -96,9 +98,9 @@ def p_comparacion(p):
     '''
 
 def p_comparaciones(p):
-    ''' comparaciones : comparacion
-                      | comparacion AND comparacion
-                      | comparacion OR comparacion
+    ''' comparaciones : comparacion PCOMA
+                      | comparacion AND comparacion PCOMA
+                      | comparacion OR comparacion PCOMA
     '''
 
 def p_sentenciaAnd(p):
