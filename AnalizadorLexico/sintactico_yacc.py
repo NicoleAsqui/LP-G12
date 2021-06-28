@@ -81,8 +81,10 @@ def p_estructuraMap(p):
 def p_funcionesMap(p):
     ''' funcionesMap : variables PUNTO ADD PIZQ expresion PDER PCOMA
                     | variables PUNTO HAS PIZQ expresion PDER PCOMA
+                    | variables PUNTO FOREACH PIZQ PIZQ VARIABLE PDER DERECHA LIZQ console LDER PDER PCOMA
 
     '''
+
 def p_sentenciaWhile(p):
     '''sentenciaWHILE : WHILE PIZQ comparacion PDER LIZQ codigo LDER
     '''
@@ -201,10 +203,10 @@ def p_case(p):
     ''' case : CASE COMILL valor COMILL COLON console BREAK PCOMA'''
 
 def p_default(p):
-    ''' default : DEFAULT COLON console'''
+    ''' default : DEFAULT COLON console '''
 
 def p_console(p):
-    ''' console : CONSOLE PUNTO LOG PCOMA'''
+    ''' console : CONSOLE PUNTO LOG PIZQ valor PDER PCOMA '''
 
 def p_sentenciaFor(p):
     '''sentenciaFor : FOR condicionFor codigo

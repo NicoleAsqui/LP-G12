@@ -42,6 +42,7 @@ reserved = {
     "Set":"SET",
     "add":"ADD",
     "has":"HAS",
+    "forEach":"FOREACH"
 }
 
 # Tokens
