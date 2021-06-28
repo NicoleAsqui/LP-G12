@@ -65,7 +65,7 @@ def p_algoritmo(p):
     '''
 
 def p_sentenciaWhile(p):
-    '''sentenciaWHILE : WHILE PIZQ comparacion PDER codigo
+    '''sentenciaWHILE : WHILE PIZQ comparacion PDER LIZQ codigo LDER
     '''
 
 def p_estructuraArreglo(p):
@@ -92,9 +92,6 @@ def p_expresion(p):
 
 def p_comparacion(p):
     '''comparacion : expresion operadorComp expresion
-        | PIZQ expresion PDER operadorComp expresion
-        | PIZQ expresion operadorComp expresion PDER
-        | expresion operadorComp PIZQ expresion PDER
     '''
 
 def p_comparaciones(p):
@@ -138,8 +135,11 @@ def p_variables(p):
     """ variables : VARIABLE
                 | CONSTANTE
     """
+
+
 def p_sentenciaIf(p):
-    ''' sentenciaIf : IF comparaciones codigo ELSE codigo
+    ''' sentenciaIf : IF PIZQ comparacion PDER LIZQ codigo LDER
+                        | IF PIZQ comparacion PDER LIZQ codigo LDER ELSE LIZQ codigo LDER
     '''
 
 def p_comentarios(p):
