@@ -5,6 +5,7 @@ import ply.yacc as yacc
 from AnalizadorLexico.lexer import tokens
 
 '''Reglas agregadas por Nicole Asqui
+
 p_codigo
 p_algoritmo
 p_sentenciaWhile
@@ -18,6 +19,9 @@ p_sentenciaOr
 p_operadorMat
 p_operadorComp
 p_sentenciaIf
+p_error
+p_conjunto
+p_estructuraArreglo
 
 Reglas agregadas por Briggitte Lopez
 p_declarationSwitch
@@ -53,21 +57,32 @@ def p_algoritmo(p):
                     | crearVariable
                     | crearObjeto
                     | crearFunction
+                    | estructuraArreglo
+                    | sentenciaOR
+                    | sentenciaAND
 
     '''
 
 def p_sentenciaWhile(p):
-    '''sentenciaWHILE : WHILE  comparacion codigo
+    '''sentenciaWHILE : WHILE PIZQ comparacion PDER codigo
+    '''
+
+def p_estructuraArreglo(p):
+    ''' estructuraArreglo : VAR variables IGUAL CIZQ conjunto CDER PCOMA
+    '''
+
+def p_conjunto(p):
+    '''conjunto : valor
+                | valor COMA conjunto
     '''
 
 def p_asignacion(p):
-    'asignacion : variables IGUAL expresion'
+    'asignacion : VAR variables IGUAL expresion PCOMA'
 
 def p_expresion_aritmetica(p):
     '''expresion : valor operadorMat expresion
                 | PIZQ valor operadorMat expresion PDER
     '''
-
 
 def p_expresion(p):
     ''' expresion : valor
@@ -82,15 +97,15 @@ def p_comparacion(p):
 
 def p_comparaciones(p):
     ''' comparaciones : comparacion
-                      | sentenciaAND
-                      | sentenciaOR
+                      | comparacion AND comparacion
+                      | comparacion OR comparacion
     '''
 
 def p_sentenciaAnd(p):
-    ''' sentenciaAND : comparacion AND comparacion
+    ''' sentenciaAND : expresion AND expresion PCOMA
     '''
 def p_sentenciaOr(p):
-    ''' sentenciaOR : comparacion OR comparacion
+    ''' sentenciaOR : expresion OR expresion PCOMA
     '''
 
 def p_operadorMat(p):
@@ -112,6 +127,9 @@ def p_valor(p):
     '''valor : ENTERO
                 | variables
                 | CADENA
+                | TRUE
+                | FALSE
+
     '''
 
 def p_variables(p):

@@ -35,7 +35,9 @@ reserved = {
     "void": "VOID",
     "try": "TRY",
     "console": "CONSOLE",
-    "log": "LOG"
+    "log": "LOG",
+    "true":"TRUE",
+    "false":"FALSE"
 }
 
 # Tokens
@@ -98,7 +100,6 @@ t_INTERROGACION = r"\?"
 t_PUNTO = r"\."
 t_AND = r"&&"
 t_OR = r"\|\|"
-t_IGUAL = r"="
 t_COMP_IGUAL = r"=="
 t_DIFERENTE = r"!="
 t_CIZQ = r"\["
@@ -119,7 +120,7 @@ t_PROD = r"\*"
 t_POTENCIA = r"\*\*"
 t_DIVISION = r"/"
 t_MOD = r'%'
-t_ASIG = r'\='
+t_IGUAL = r'\='
 t_COLON = r'\:'
 t_INC = r'\+\+'
 t_DEC = r'--'
@@ -196,7 +197,7 @@ def analizar(data):
         tok = lexer.token()
         if not tok:
             break  # No more input
-        #print(tok)
+        print(tok)
 
 
 def crearArchivo(data):
@@ -223,11 +224,11 @@ def leerText(txt):
 '''
 def leer(file):
     for linea in file:
-        #print(">>" + linea)
+        print(">>" + linea)
         analizar(linea)
         if len(linea) == 0:
             break
 
-archivo = open("../archivos/grupo12.txt")
+archivo = open("../archivos/algoritmo.txt")
 
 leer(archivo)
