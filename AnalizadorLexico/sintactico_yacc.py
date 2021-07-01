@@ -67,7 +67,7 @@ def p_algoritmo(p):
                     | estructuraMap
                     | funcionesMap
                     | metodosTupla
-                    | console
+                    | consolep
 
 
     '''
