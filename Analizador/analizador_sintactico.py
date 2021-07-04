@@ -44,12 +44,13 @@ p_crearFunction
 p_cuerpoFunction
 '''
 
-def p_codigo(p):
+def p_codigo(t):
     '''codigo : algoritmo
-                | algoritmo codigo
-    '''
+                | algoritmo codigo '''
+    t[0] = t[1]
 
-def p_algoritmo(p):
+
+def p_algoritmo(t):
     ''' algoritmo : asignacion
                     | sentenciaWHILE
                     | sentenciaIf
@@ -68,21 +69,23 @@ def p_algoritmo(p):
                     | estructuraMap
                     | funcionesMap
                     | metodosTupla
+                    | expresion_aritmetica
     '''
+    t[0] = t[1]
 
 def p_sentenciaDO(p):
     '''sentenciaDo : DO LIZQ codigo LDER WHILE PIZQ comparacion PDER PCOMA
     '''
 
 def p_estructuraMap(p):
-    ''' estructuraMap : VAR variables IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
-                    | LET variables IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
+    ''' estructuraMap : VAR VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
+                    | LET VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
     '''
 
 def p_funcionesMap(p):
-    ''' funcionesMap : variables PUNTO ADD PIZQ expresion PDER PCOMA
-                    | variables PUNTO HAS PIZQ expresion PDER PCOMA
-                    | variables PUNTO FOREACH PIZQ PIZQ VARIABLE PDER DERECHA LIZQ console LDER PDER PCOMA
+    ''' funcionesMap : VARIABLE PUNTO ADD PIZQ expresion PDER PCOMA
+                    | VARIABLE PUNTO HAS PIZQ expresion PDER PCOMA
+                    | VARIABLE PUNTO FOREACH PIZQ PIZQ VARIABLE PDER DERECHA LIZQ console LDER PDER PCOMA
     '''
 
 def p_sentenciaWhile(p):
@@ -90,22 +93,22 @@ def p_sentenciaWhile(p):
     '''
 
 def p_estructuraArreglo(p):
-    ''' estructuraArreglo : VAR variables IGUAL CIZQ conjunto CDER PCOMA
+    ''' estructuraArreglo : VAR VARIABLE IGUAL CIZQ conjunto CDER PCOMA
     '''
 
 def p_metodosArreglos(p):
-    ''' metodosArreglos : variables PUNTO PUSH PIZQ expresion PDER PCOMA
-                        | variables PUNTO POP PIZQ  PDER PCOMA
-                        | variables PUNTO JOIN PIZQ  PDER PCOMA
+    ''' metodosArreglos : VARIABLE PUNTO PUSH PIZQ expresion PDER PCOMA
+                        | VARIABLE PUNTO POP PIZQ  PDER PCOMA
+                        | VARIABLE PUNTO JOIN PIZQ  PDER PCOMA
     '''
 
 def p_conjunto(p):
-    '''conjunto : valor
-                | valor COMA conjunto
+    '''conjunto : expresion
+                | expresion COMA conjunto
     '''
 
 def p_asignacion(p):
-    'asignacion : VAR variables tipoasignacion expresion PCOMA'
+    'asignacion : VAR VARIABLE tipoasignacion expresion PCOMA'
 
 def p_tipoasignacion(p):
     '''tipoasignacion : IGUAL
@@ -125,14 +128,18 @@ def p_tipoasignacion(p):
                     | ASIG_ANU
     '''
 
-def p_expresion_aritmetica(p):
-    '''expresion : valor operadorMat expresion
-                | PIZQ valor operadorMat expresion PDER
+def p_expresion_aritmetica(t):
+    '''expresion_aritmetica : reglaSemanticaOperaciones
+                | PIZQ reglaSemanticaOperaciones PDER
+    '''
+    t[0] = t[1]
+
+def p_expresion(t):
+    ''' expresion : valorMatematico
+                | valorGramatico
+                | valorBooleano
     '''
 
-def p_expresion(p):
-    ''' expresion : valor
-    '''
 
 def p_comparacion(p):
     '''comparacion : expresion operadorComp expresion
@@ -157,6 +164,7 @@ def p_operadorMat(p):
                 | PROD
                 | DIVISION
                 | POTENCIA
+                | MOD
     '''
 def p_operadorComp(p):
     '''operadorComp : MAYOR
@@ -166,17 +174,22 @@ def p_operadorComp(p):
     '''
 
 
-def p_valor(p):
-    '''valor : ENTERO
-                | variables
+def p_valorMatematico(t):
+    '''valorMatematico    : ENTERO
+                    | DECIMAL'''
+    t[0] = t[1]
+
+def p_valorGramatico(p):
+    '''valorGramatico : VARIABLE
                 | CADENA
-                | TRUE
+    '''
+
+
+def p_valorBooleano(p):
+    '''valorBooleano : TRUE
                 | FALSE
     '''
 
-def p_variables(p):
-    """ variables : VARIABLE
-    """
 
 
 def p_sentenciaIf(p):
@@ -190,9 +203,9 @@ def p_comentarios(p):
     '''
 
 def p_metodosTupla(p):
-    ''' metodosTupla : variables PUNTO INDEX PIZQ expresion PDER PCOMA
-                        | variables PUNTO COUNT PIZQ variables PDER PCOMA
-                        | LEN PIZQ variables PDER PCOMA
+    ''' metodosTupla : VARIABLE PUNTO INDEX PIZQ expresion PDER PCOMA
+                        | VARIABLE PUNTO COUNT PIZQ VARIABLE PDER PCOMA
+                        | LEN PIZQ VARIABLE PDER PCOMA
     '''
 
 def p_declarationSwitch(p):
@@ -203,7 +216,7 @@ def p_cuerpoSwitch(p):
                     | default'''
 
 def p_case(p):
-    ''' case : CASE COMILL valor COMILL COLON codigo BREAK PCOMA'''
+    ''' case : CASE COMILL expresion COMILL COLON codigo BREAK PCOMA'''
 
 def p_default(p):
     ''' default : DEFAULT COLON codigo '''
@@ -216,7 +229,7 @@ def p_sentenciaFor(p):
     '''
 
 def p_condicionFOR(p):
-    '''condicionFor : asignacion PCOMA comparacion PCOMA variables DEC '''
+    '''condicionFor : asignacion PCOMA comparacion PCOMA VARIABLE DEC '''
 
 
 def p_crearVariables(p):
@@ -228,19 +241,37 @@ def p_instruccion(p):
                     | LET '''
 
 def p_crearObjeto(p):
-    ''' crearObjeto : CONST variables IGUAL NEW OBJECT PIZQ PDER PCOMA '''
+    ''' crearObjeto : CONST VARIABLE IGUAL NEW OBJECT PIZQ PDER PCOMA '''
 
 def p_crearFunction(p):
-    ''' crearFunction : FUNCTION variables PIZQ conjunto PDER LIZQ cuerpoFunction LDER'''
+    ''' crearFunction : FUNCTION VARIABLE PIZQ conjunto PDER LIZQ cuerpoFunction LDER'''
 
 def p_cuerpoFunction(p):
-    ''' cuerpoFunction : THIS PUNTO variables IGUAL variables PCOMA'''
+    ''' cuerpoFunction : THIS PUNTO VARIABLE IGUAL VARIABLE PCOMA'''
 
-
-def p_semanticoOperaciones(p):
-    ''' semanticoOperaciones : ENTERO '''
-
-
+def p_reglaSemanticaOperaciones(t):
+    '''reglaSemanticaOperaciones : valorMatematico MAS valorMatematico
+                  | valorMatematico RESTA valorMatematico
+                  | valorMatematico PROD valorMatematico
+                  | valorMatematico DIVISION valorMatematico
+                  | valorMatematico MOD valorMatematico
+                  | valorMatematico POTENCIA valorMatematico'''
+    if t[2] == '+':
+        t[0] = t[1] + t[3]
+    elif t[2] == '-':
+        t[0] = t[1] - t[3]
+    elif t[2] == '*':
+        t[0] = t[1] * t[3]
+    elif t[2] == '/':
+        t[0] = t[1] / t[3]
+    elif t[2] == '%':
+        t[0] = t[1] % t[3]
+    elif t[2] == '**':
+        i = t[3]
+        t[0] = t[1]
+        while i > 1:
+            t[0] *= t[1]
+            i -= 1
 
 
 # Error rule for syntax errors
@@ -251,14 +282,13 @@ def p_error(t):
         resultado = "Error sintactico de tipo {} en el valor {}".format( str(t.type),str(t.value))
         print(resultado)
     else:
-        resultado = "Error sintactico {}".format(t)
+        resultado = "Todo correcto : {}".format(t)
         print(resultado)
     resultado_gramatica.append(resultado)
 
 # Build the parser
 
 parser = yacc.yacc()
-
 
 
 def prueba_sintactica(data):
@@ -283,18 +313,15 @@ if __name__ == '__main__':
         except EOFError:
             continue
         if not s: continue
-
         # gram = parser.parse(s)
         # print("Resultado ", gram)
-
         prueba_sintactica(s)
-"""def leerAlgoritmo(file):
+"""
+def leerAlgoritmo(file):
     s = file.read()
     print(s)
     result = parser.parse(s)
     print(result)
     file.close()
-
 archivo1 = open("../archivos/AlgoritmoAsqui.txt")
-
 leerAlgoritmo(archivo1)"""

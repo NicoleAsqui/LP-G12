@@ -53,6 +53,7 @@ tokens = [
     "MAS",
     "RESTA",
     "MENOR",
+    "DECIMAL",
     "MAYOR",
     "CADENA",
     "POTENCIA",
@@ -106,7 +107,6 @@ t_PCOMA = r";"
 t_PIZQ = r"\("
 t_PDER = r"\)"
 t_MAS = r"\+"
-t_ENTERO = r"\d+"
 t_RESTA = r"-"
 t_MENOR = r"<"
 t_MAYOR = r">"
@@ -139,6 +139,23 @@ t_ASIG_DSG = r'>>>='
 t_ASIG_OR = r'\|\|='
 T_ASIG_ANU = r'??='
 
+def t_DECIMAL(t):
+    r'\d+\.\d+'
+    try:
+        t.value = float(t.value)
+    except ValueError:
+        print("Floaat value too large %d", t.value)
+        t.value = 0
+    return t
+
+def t_ENTERO(t):
+    r'\d+'
+    try:
+        t.value = int(t.value)
+    except ValueError:
+        print("Integer value too large %d", t.value)
+        t.value = 0
+    return t
 
 
 def t_COMENTARIO_MULTILINEA(t):
