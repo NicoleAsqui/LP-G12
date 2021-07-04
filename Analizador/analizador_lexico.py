@@ -4,6 +4,9 @@ import ply.lex as lex
 # SPRINT 1: Listar todos los componentes lexicos
 # Variables, palabras reservadas, simbolos, caracteres especiales
 
+# resultado del analisis
+resultado_lexema = []
+
 # Lista de palabras reservadas
 reserved = {
     "var": "VAR",
@@ -41,7 +44,6 @@ reserved = {
 # Tokens
 tokens = [
     "VARIABLE",
-    "CONSTANTE",
     "COMP_IGUAL",
     "IGUAL",
     "DIFERENTE",
@@ -57,7 +59,6 @@ tokens = [
     "DIVISION",
     "PROD",
     "PUNTO",
-    "INTERROGACION",
     "CIZQ",
     "CDER",
     "LIZQ",
@@ -68,12 +69,8 @@ tokens = [
     "PCOMA",
     "MOD",
     "NOT",
-    "ASIG",
     "COLON",
-    "INC",
     "DEC",
-    "EQ_ESTRIC",
-    "NOE_ESTRIC",
     "ASIG_SUMA",
     "ASIG_MEN",
     "ASIG_DIV",
@@ -95,7 +92,6 @@ tokens = [
 
 
 ] + list(reserved.values())
-t_INTERROGACION = r"\?"
 t_PUNTO = r"\."
 t_AND = r"&&"
 t_OR = r"\|\|"
@@ -121,10 +117,7 @@ t_DIVISION = r"/"
 t_MOD = r'%'
 t_IGUAL = r'\='
 t_COLON = r'\:'
-t_INC = r'\+\+'
 t_DEC = r'--'
-t_EQ_ESTRIC = r'==='
-t_NOE_ESTRIC = r'\!==='
 t_COMILL = r'\"'
 t_COMENTARIO_EN_LINEA = r'//.*'
 t_DERECHA = r'\=>'
@@ -153,13 +146,6 @@ def t_COMENTARIO_MULTILINEA(t):
     t.lexer.lineno += t.value.count('\n')
     return t
 
-
-
-def t_CONSTANTE(t):
-    r"[A-Z][a-zA-Z0-9_!]*"
-    t.type = reserved.get(t.value, 'CONSTANTE')  # Check for reserved words
-    return t
-
 def t_NOT(t):
     r'(![a-zA-Z]\w*)'
     t.type = reserved.get(t.value, 'NOT')
@@ -178,9 +164,11 @@ def t_newline(t):
 t_ignore = ' \t'
 
 
-# Error handling rule
-def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
+def t_error( t):
+    global resultado_lexema
+    estado = "** Token no valido en la Linea {:4} Valor {:16} Posicion {:4}".format(str(t.lineno), str(t.value),
+                                                                      str(t.lexpos))
+    resultado_lexema.append(estado)
     t.lexer.skip(1)
 
 
@@ -190,15 +178,28 @@ lexer = lex.lex()
 data = ''' a = + b'''
 
 def analizar(data):
+
+    global resultado_lexema
     lexer.input(data)
+
+    resultado_lexema.clear()
     # Tokenize
     while True:
         tok = lexer.token()
         if not tok:
             break  # No more input
         print(tok)
+        estado = "Linea {:4} Tipo {:16} Valor {:16} Posicion {:4}".format(str(tok.lineno), str(tok.type),
+                                                                          str(tok.value), str(tok.lexpos))
+        resultado_lexema.append(estado)
+    return resultado_lexema
 
-
+if __name__ == '__main__':
+    while True:
+        data = input("ingrese: ")
+        analizar(data)
+        print(resultado_lexema)
+"""
 def crearArchivo(data):
     fic = open("lexico.txt", "w+")
     lexer.input(data)
@@ -212,7 +213,7 @@ def crearArchivo(data):
         if len(linea) == 0:
             break
     fic.close()
-'''
+    
 def leerText(txt):
     data=txt.split("\n")
     for linea in data:
@@ -220,7 +221,7 @@ def leerText(txt):
         if len(linea)==0:
             break
         return analizar(linea)
-'''
+
 def leer(file):
     for linea in file:
         print(">>" + linea)
@@ -228,6 +229,6 @@ def leer(file):
         if len(linea) == 0:
             break
 
-archivo = open("../archivos/algoritmo.txt")
+archivo = open("../archivos/AlgoritmoAsqui.txt")
 
-leer(archivo)
+leer(archivo) """

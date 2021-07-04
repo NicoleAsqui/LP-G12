@@ -2,10 +2,12 @@ import ply.yacc as yacc
 
 # Get the token map from the lexer.  This is required.
 
-from AnalizadorLexico.lexer import tokens
+from Analizador.analizador_lexico import tokens
+
+# resultado del analisis
+resultado_gramatica = []
 
 '''Reglas agregadas por Nicole Asqui
-
 p_codigo
 p_algoritmo
 p_sentenciaWhile
@@ -23,7 +25,6 @@ p_error
 p_conjunto
 p_estructuraArreglo
 p_metodosArreglos
-
 Reglas agregadas por Briggitte Lopez
 p_declarationSwitch
 p_cuerpoSwitch
@@ -67,9 +68,6 @@ def p_algoritmo(p):
                     | estructuraMap
                     | funcionesMap
                     | metodosTupla
-                    | consolep
-
-
     '''
 
 def p_sentenciaDO(p):
@@ -85,7 +83,6 @@ def p_funcionesMap(p):
     ''' funcionesMap : variables PUNTO ADD PIZQ expresion PDER PCOMA
                     | variables PUNTO HAS PIZQ expresion PDER PCOMA
                     | variables PUNTO FOREACH PIZQ PIZQ VARIABLE PDER DERECHA LIZQ console LDER PDER PCOMA
-
     '''
 
 def p_sentenciaWhile(p):
@@ -175,12 +172,10 @@ def p_valor(p):
                 | CADENA
                 | TRUE
                 | FALSE
-
     '''
 
 def p_variables(p):
     """ variables : VARIABLE
-                | CONSTANTE
     """
 
 
@@ -192,7 +187,6 @@ def p_sentenciaIf(p):
 def p_comentarios(p):
     ''' comentarios : COMENTARIO_EN_LINEA
                     | COMENTARIO_MULTILINEA
-
     '''
 
 def p_metodosTupla(p):
@@ -226,8 +220,7 @@ def p_condicionFOR(p):
 
 
 def p_crearVariables(p):
-    ''' crearVariable : instruccionVL VARIABLE IGUAL CONSTANTE
-                                            | ENTERO
+    ''' crearVariable : instruccionVL VARIABLE IGUAL ENTERO
                                             | CADENA'''
 
 def p_instruccion(p):
@@ -244,30 +237,64 @@ def p_cuerpoFunction(p):
     ''' cuerpoFunction : THIS PUNTO variables IGUAL variables PCOMA'''
 
 
+def p_semanticoOperaciones(p):
+    ''' semanticoOperaciones : ENTERO '''
+
+
 
 
 # Error rule for syntax errors
-def p_error(p):
-    print("Syntax error in input!")
 
+def p_error(t):
+    global resultado_gramatica
+    if t:
+        resultado = "Error sintactico de tipo {} en el valor {}".format( str(t.type),str(t.value))
+        print(resultado)
+    else:
+        resultado = "Error sintactico {}".format(t)
+        print(resultado)
+    resultado_gramatica.append(resultado)
 
 # Build the parser
 
 parser = yacc.yacc()
 
-def leerCodigo(data):
-        #print(data)
-        result = parser.parse(data)
-        #print(result.value)
-        return result
 
-def leerAlgoritmo(file):
+
+def prueba_sintactica(data):
+    global resultado_gramatica
+    resultado_gramatica.clear()
+
+    for item in data.splitlines():
+        if item:
+            gram = parser.parse(item)
+            if gram:
+                resultado_gramatica.append(str(gram))
+        else: print("data vacia")
+
+    print("result: ", resultado_gramatica)
+    return resultado_gramatica
+
+
+if __name__ == '__main__':
+    while True:
+        try:
+            s = input(' ingresa dato >>> ')
+        except EOFError:
+            continue
+        if not s: continue
+
+        # gram = parser.parse(s)
+        # print("Resultado ", gram)
+
+        prueba_sintactica(s)
+"""def leerAlgoritmo(file):
     s = file.read()
     print(s)
     result = parser.parse(s)
     print(result)
     file.close()
 
-archivo1 = open("../archivos/algoritmo.txt")
+archivo1 = open("../archivos/AlgoritmoAsqui.txt")
 
-leerAlgoritmo(archivo1)
+leerAlgoritmo(archivo1)"""
