@@ -1,0 +1,19 @@
+//Inicio del Algoritmo Nicole
+var numero_1 = 3 ;
+var numero_2 = "sdfsdfsd" ;
+var numero_2 = false ;
+var persona = [ "Julio" , 22 , true ] ;
+a && b ;
+a > b && a > b;
+while (n < 3) {
+  var n = 0;
+}
+if (compraRealizada == true) {
+  var subsidioAdicional = 10;
+} else {
+  var subsidioAdicional = 5;
+}
+
+persona.push(variable);
+persona.pop();
+fruits.join();
