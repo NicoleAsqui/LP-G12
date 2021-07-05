@@ -1,11 +1,8 @@
 3**4
 10/2
-for (var i = 0; i < 9; i++) {
-   n += i;
-   mifuncion(n);
-}
+for (var i = 0; i < 9; i++) {   n += i;   mifuncion(n);}
 //comentario
 
-if(a == 3){
-	console.log("Pruebas")
-}
+if(a == 3){	console.log("Pruebas")}
+
+console.log("hola");

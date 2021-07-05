@@ -96,8 +96,8 @@ tokens = [
 t_PUNTO = r"\."
 t_AND = r"&&"
 t_OR = r"\|\|"
-t_COMP_IGUAL = r"=="
-t_DIFERENTE = r"!="
+t_COMP_IGUAL = r"==="
+t_DIFERENTE = r"!=="
 t_CIZQ = r"\["
 t_CDER = r"\]"
 t_LIZQ = r"\{"
@@ -119,7 +119,7 @@ t_IGUAL = r'\='
 t_COLON = r'\:'
 t_DEC = r'--'
 t_COMILL = r'\"'
-t_COMENTARIO_EN_LINEA = r'//.*'
+t_COMENTARIO_EN_LINEA = r'//[a-zA-Z0-9]+'
 t_DERECHA = r'\=>'
 
 

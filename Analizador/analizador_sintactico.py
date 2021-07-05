@@ -25,6 +25,7 @@ p_error
 p_conjunto
 p_estructuraArreglo
 p_metodosArreglos
+
 Reglas agregadas por Briggitte Lopez
 p_declarationSwitch
 p_cuerpoSwitch
@@ -70,6 +71,7 @@ def p_algoritmo(t):
                     | funcionesMap
                     | metodosTupla
                     | expresion_aritmetica
+                    | console
     '''
     t[0] = t[1]
 
@@ -222,7 +224,7 @@ def p_default(p):
     ''' default : DEFAULT COLON codigo '''
 
 def p_console(p):
-    ''' console : CONSOLE PUNTO LOG PIZQ  PDER PCOMA'''
+    ''' console : CONSOLE PUNTO LOG PIZQ expresion PDER PCOMA'''
 
 def p_sentenciaFor(p):
     '''sentenciaFor : FOR PIZQ condicionFor PDER LIZQ codigo LDER
@@ -273,6 +275,24 @@ def p_reglaSemanticaOperaciones(t):
             t[0] *= t[1]
             i -= 1
 
+def p_reglaSemanticaCondiciones(t):
+    '''reglaSemanticaCondiciones : valorMatematico COMP_IGUAL valorMatematico
+                                | valorMatematico MENOR valorMatematico
+                                | valorMatematico MAYOR valorMatematico
+                                | valorMatematico DIFERENTE valorMatematico
+                                | valorGramatico COMP_IGUAL valorGramatico
+                                | valorGramatico DIFERENTE valorGramatico
+                                | valorBooleano COMP_IGUAL valorBooleano
+                                | valorBooleano DIFERENTE valorBooleano'''
+
+    if t[2] == '===':
+        t[0] = t[1] == t[3]
+    elif t[2] == '!==':
+        t[0] = t[1] != t[3]
+    elif t[2] == '<':
+        t[0] = t[1] < t[3]
+    elif t[2] == '>':
+        t[0] = t[1] > t[3]
 
 # Error rule for syntax errors
 
