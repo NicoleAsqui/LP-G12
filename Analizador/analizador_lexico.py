@@ -31,7 +31,7 @@ reserved = {
     "log": "LOG",
     "true":"TRUE",
     "false":"FALSE",
-    "Set":"SET",
+    "set":"SET",
     "add":"ADD",
     "has":"HAS",
     "index": "INDEX",
@@ -98,7 +98,7 @@ t_AND = r"&&"
 t_OR = r"\|\|"
 t_COMP_IGUAL = r"==="
 t_DIFERENTE = r"!=="
-t_CIZQ = r"\["
+t_CIZQ = r" \["
 t_CDER = r"\]"
 t_LIZQ = r"\{"
 t_LDER = r"\}"

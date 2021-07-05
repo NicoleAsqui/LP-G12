@@ -124,11 +124,17 @@ Rule 114   reglaSemanticaCondiciones -> valorGramatico COMP_IGUAL valorGramatico
 Rule 115   reglaSemanticaCondiciones -> valorGramatico DIFERENTE valorGramatico
 Rule 116   reglaSemanticaCondiciones -> valorBooleano COMP_IGUAL valorBooleano
 Rule 117   reglaSemanticaCondiciones -> valorBooleano DIFERENTE valorBooleano
+Rule 118   reglaSemanticaCondiciones -> valorBooleano AND valorBooleano
+Rule 119   reglaSemanticaCondiciones -> valorBooleano OR valorBooleano
+Rule 120   reglaSemanticaEstructuras -> valorBooleano COMA valorMatematico COMA valorGramatico
+Rule 121   reglaSemanticaEstructuras -> valorBooleano COMA valorBooleano COMA valorBooleano
+Rule 122   reglaSemanticaEstructuras -> valorMatematico COMA valorMatematico COMA valorMatematico
+Rule 123   reglaSemanticaEstructuras -> valorGramatico COMA valorGramatico COMA valorGramatico
 
 Terminals, with rules where they appear
 
 ADD                  : 27
-AND                  : 62 64
+AND                  : 62 64 118
 ASIG_ANU             : 52
 ASIG_BAN             : 44
 ASIG_BOR             : 43
@@ -149,7 +155,7 @@ CASE                 : 92
 CDER                 : 25 26 31
 CIZQ                 : 25 26 31
 COLON                : 92 93
-COMA                 : 36
+COMA                 : 36 120 120 121 121 122 122 123 123
 COMENTARIO_EN_LINEA  : 84
 COMENTARIO_MULTILINEA : 85
 COMILL               : 92 92
@@ -187,7 +193,7 @@ MOD                  : 71 108
 NEW                  : 25 26 101
 NOT                  : 
 OBJECT               : 101
-OR                   : 63 65
+OR                   : 63 65 119
 PCOMA                : 24 25 26 27 28 29 31 32 33 34 37 61 62 63 64 65 86 87 88 92 94 96 96 101 103
 PDER                 : 24 25 26 27 28 29 29 30 32 33 34 54 56 82 83 86 87 88 89 94 95 101 102
 PIZQ                 : 24 25 26 27 28 29 29 30 32 33 34 54 56 82 83 86 87 88 89 94 95 101 102
@@ -236,6 +242,7 @@ metodosTupla         : 20
 operadorComp         : 60
 operadorMat          : 
 reglaSemanticaCondiciones : 53 54
+reglaSemanticaEstructuras : 
 reglaSemanticaOperaciones : 55 56
 sentenciaAND         : 14
 sentenciaDo          : 17
@@ -245,9 +252,9 @@ sentenciaOR          : 13
 sentenciaWHILE       : 4
 switch               : 7
 tipoasignacion       : 37
-valorBooleano        : 59 116 116 117 117
-valorGramatico       : 58 114 114 115 115
-valorMatematico      : 57 104 104 105 105 106 106 107 107 108 108 109 109 110 110 111 111 112 112 113 113
+valorBooleano        : 59 116 116 117 117 118 118 119 119 120 121 121 121
+valorGramatico       : 58 114 114 115 115 120 123 123 123
+valorMatematico      : 57 104 104 105 105 106 106 107 107 108 108 109 109 110 110 111 111 112 112 113 113 120 122 122 122
 
 Parsing method: LALR
 
@@ -332,6 +339,8 @@ state 0
     (115) reglaSemanticaCondiciones -> . valorGramatico DIFERENTE valorGramatico
     (116) reglaSemanticaCondiciones -> . valorBooleano COMP_IGUAL valorBooleano
     (117) reglaSemanticaCondiciones -> . valorBooleano DIFERENTE valorBooleano
+    (118) reglaSemanticaCondiciones -> . valorBooleano AND valorBooleano
+    (119) reglaSemanticaCondiciones -> . valorBooleano OR valorBooleano
     (76) valorMatematico -> . ENTERO
     (77) valorMatematico -> . DECIMAL
     (78) valorGramatico -> . VARIABLE
@@ -480,6 +489,8 @@ state 2
     (115) reglaSemanticaCondiciones -> . valorGramatico DIFERENTE valorGramatico
     (116) reglaSemanticaCondiciones -> . valorBooleano COMP_IGUAL valorBooleano
     (117) reglaSemanticaCondiciones -> . valorBooleano DIFERENTE valorBooleano
+    (118) reglaSemanticaCondiciones -> . valorBooleano AND valorBooleano
+    (119) reglaSemanticaCondiciones -> . valorBooleano OR valorBooleano
     (76) valorMatematico -> . ENTERO
     (77) valorMatematico -> . DECIMAL
     (78) valorGramatico -> . VARIABLE
@@ -1271,6 +1282,8 @@ state 28
     (115) reglaSemanticaCondiciones -> . valorGramatico DIFERENTE valorGramatico
     (116) reglaSemanticaCondiciones -> . valorBooleano COMP_IGUAL valorBooleano
     (117) reglaSemanticaCondiciones -> . valorBooleano DIFERENTE valorBooleano
+    (118) reglaSemanticaCondiciones -> . valorBooleano AND valorBooleano
+    (119) reglaSemanticaCondiciones -> . valorBooleano OR valorBooleano
     (76) valorMatematico -> . ENTERO
     (77) valorMatematico -> . DECIMAL
     (78) valorGramatico -> . VARIABLE
@@ -1636,16 +1649,22 @@ state 48
     (59) expresion -> valorBooleano .
     (116) reglaSemanticaCondiciones -> valorBooleano . COMP_IGUAL valorBooleano
     (117) reglaSemanticaCondiciones -> valorBooleano . DIFERENTE valorBooleano
+    (118) reglaSemanticaCondiciones -> valorBooleano . AND valorBooleano
+    (119) reglaSemanticaCondiciones -> valorBooleano . OR valorBooleano
 
   ! shift/reduce conflict for COMP_IGUAL resolved as shift
   ! shift/reduce conflict for DIFERENTE resolved as shift
-    OR              reduce using rule 59 (expresion -> valorBooleano .)
-    AND             reduce using rule 59 (expresion -> valorBooleano .)
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
     MAYOR           reduce using rule 59 (expresion -> valorBooleano .)
     MENOR           reduce using rule 59 (expresion -> valorBooleano .)
     COMP_IGUAL      shift and go to state 95
     DIFERENTE       shift and go to state 96
+    AND             shift and go to state 97
+    OR              shift and go to state 98
 
+  ! OR              [ reduce using rule 59 (expresion -> valorBooleano .) ]
+  ! AND             [ reduce using rule 59 (expresion -> valorBooleano .) ]
   ! COMP_IGUAL      [ reduce using rule 59 (expresion -> valorBooleano .) ]
   ! DIFERENTE       [ reduce using rule 59 (expresion -> valorBooleano .) ]
 
@@ -1702,8 +1721,8 @@ state 50
 
     COMP_IGUAL      reduce using rule 80 (valorBooleano -> TRUE .)
     DIFERENTE       reduce using rule 80 (valorBooleano -> TRUE .)
-    OR              reduce using rule 80 (valorBooleano -> TRUE .)
     AND             reduce using rule 80 (valorBooleano -> TRUE .)
+    OR              reduce using rule 80 (valorBooleano -> TRUE .)
     MAYOR           reduce using rule 80 (valorBooleano -> TRUE .)
     MENOR           reduce using rule 80 (valorBooleano -> TRUE .)
     PCOMA           reduce using rule 80 (valorBooleano -> TRUE .)
@@ -1742,8 +1761,8 @@ state 51
 
     COMP_IGUAL      reduce using rule 81 (valorBooleano -> FALSE .)
     DIFERENTE       reduce using rule 81 (valorBooleano -> FALSE .)
-    OR              reduce using rule 81 (valorBooleano -> FALSE .)
     AND             reduce using rule 81 (valorBooleano -> FALSE .)
+    OR              reduce using rule 81 (valorBooleano -> FALSE .)
     MAYOR           reduce using rule 81 (valorBooleano -> FALSE .)
     MENOR           reduce using rule 81 (valorBooleano -> FALSE .)
     PCOMA           reduce using rule 81 (valorBooleano -> FALSE .)
@@ -1826,23 +1845,23 @@ state 53
     (51) tipoasignacion -> . ASIG_OR
     (52) tipoasignacion -> . ASIG_ANU
 
-    IGUAL           shift and go to state 98
-    ASIG_SUMA       shift and go to state 99
-    ASIG_MEN        shift and go to state 100
-    ASIG_DIV        shift and go to state 101
-    ASIG_MUL        shift and go to state 102
-    ASIG_BOR        shift and go to state 103
-    ASIG_BAN        shift and go to state 104
-    ASIG_XOR        shift and go to state 105
-    ASIG_RESDU      shift and go to state 106
-    ASIG_EXPO       shift and go to state 107
-    ASIG_DE_I       shift and go to state 108
-    ASIG_DE_D       shift and go to state 109
-    ASIG_DSG        shift and go to state 110
-    ASIG_OR         shift and go to state 111
-    ASIG_ANU        shift and go to state 112
+    IGUAL           shift and go to state 100
+    ASIG_SUMA       shift and go to state 101
+    ASIG_MEN        shift and go to state 102
+    ASIG_DIV        shift and go to state 103
+    ASIG_MUL        shift and go to state 104
+    ASIG_BOR        shift and go to state 105
+    ASIG_BAN        shift and go to state 106
+    ASIG_XOR        shift and go to state 107
+    ASIG_RESDU      shift and go to state 108
+    ASIG_EXPO       shift and go to state 109
+    ASIG_DE_I       shift and go to state 110
+    ASIG_DE_D       shift and go to state 111
+    ASIG_DSG        shift and go to state 112
+    ASIG_OR         shift and go to state 113
+    ASIG_ANU        shift and go to state 114
 
-    tipoasignacion                 shift and go to state 97
+    tipoasignacion                 shift and go to state 99
 
 state 54
 
@@ -1855,14 +1874,14 @@ state 54
     (86) metodosTupla -> VARIABLE PUNTO . INDEX PIZQ expresion PDER PCOMA
     (87) metodosTupla -> VARIABLE PUNTO . COUNT PIZQ VARIABLE PDER PCOMA
 
-    PUSH            shift and go to state 113
-    POP             shift and go to state 114
-    JOIN            shift and go to state 115
-    ADD             shift and go to state 116
-    HAS             shift and go to state 117
-    FOREACH         shift and go to state 118
-    INDEX           shift and go to state 119
-    COUNT           shift and go to state 120
+    PUSH            shift and go to state 115
+    POP             shift and go to state 116
+    JOIN            shift and go to state 117
+    ADD             shift and go to state 118
+    HAS             shift and go to state 119
+    FOREACH         shift and go to state 120
+    INDEX           shift and go to state 121
+    COUNT           shift and go to state 122
 
 
 state 55
@@ -1885,10 +1904,10 @@ state 55
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    expresion                      shift and go to state 121
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    expresion                      shift and go to state 123
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
 state 56
 
@@ -1910,10 +1929,10 @@ state 56
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    expresion                      shift and go to state 125
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    expresion                      shift and go to state 127
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
 state 57
 
@@ -1935,10 +1954,10 @@ state 57
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    expresion                      shift and go to state 126
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    expresion                      shift and go to state 128
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
 state 58
 
@@ -2009,24 +2028,24 @@ state 62
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    comparacion                    shift and go to state 127
-    expresion                      shift and go to state 128
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    comparacion                    shift and go to state 129
+    expresion                      shift and go to state 130
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
 state 63
 
     (56) expresion_aritmetica -> PIZQ reglaSemanticaOperaciones . PDER
 
-    PDER            shift and go to state 129
+    PDER            shift and go to state 131
 
 
 state 64
 
     (54) condiciones -> PIZQ reglaSemanticaCondiciones . PDER
 
-    PDER            shift and go to state 130
+    PDER            shift and go to state 132
 
 
 state 65
@@ -2067,9 +2086,13 @@ state 67
 
     (116) reglaSemanticaCondiciones -> valorBooleano . COMP_IGUAL valorBooleano
     (117) reglaSemanticaCondiciones -> valorBooleano . DIFERENTE valorBooleano
+    (118) reglaSemanticaCondiciones -> valorBooleano . AND valorBooleano
+    (119) reglaSemanticaCondiciones -> valorBooleano . OR valorBooleano
 
     COMP_IGUAL      shift and go to state 95
     DIFERENTE       shift and go to state 96
+    AND             shift and go to state 97
+    OR              shift and go to state 98
 
 
 state 68
@@ -2202,11 +2225,11 @@ state 71
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    comparacion                    shift and go to state 131
-    expresion                      shift and go to state 128
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    comparacion                    shift and go to state 133
+    expresion                      shift and go to state 130
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
 state 72
 
@@ -2229,11 +2252,11 @@ state 72
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    comparacion                    shift and go to state 132
-    expresion                      shift and go to state 128
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    comparacion                    shift and go to state 134
+    expresion                      shift and go to state 130
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
 state 73
 
@@ -2257,11 +2280,11 @@ state 73
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    comparacion                    shift and go to state 133
-    expresion                      shift and go to state 128
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    comparacion                    shift and go to state 135
+    expresion                      shift and go to state 130
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
 state 74
 
@@ -2283,10 +2306,10 @@ state 74
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    expresion                      shift and go to state 134
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    expresion                      shift and go to state 136
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
 state 75
 
@@ -2294,30 +2317,30 @@ state 75
     (96) condicionFor -> . asignacion PCOMA comparacion PCOMA VARIABLE DEC
     (37) asignacion -> . VAR VARIABLE tipoasignacion expresion PCOMA
 
-    VAR             shift and go to state 137
+    VAR             shift and go to state 139
 
-    condicionFor                   shift and go to state 135
-    asignacion                     shift and go to state 136
+    condicionFor                   shift and go to state 137
+    asignacion                     shift and go to state 138
 
 state 76
 
     (97) crearVariable -> instruccionVL VARIABLE . IGUAL ENTERO
 
-    IGUAL           shift and go to state 138
+    IGUAL           shift and go to state 140
 
 
 state 77
 
     (101) crearObjeto -> CONST VARIABLE . IGUAL NEW OBJECT PIZQ PDER PCOMA
 
-    IGUAL           shift and go to state 139
+    IGUAL           shift and go to state 141
 
 
 state 78
 
     (102) crearFunction -> FUNCTION VARIABLE . PIZQ conjunto PDER LIZQ cuerpoFunction LDER
 
-    PIZQ            shift and go to state 140
+    PIZQ            shift and go to state 142
 
 
 state 79
@@ -2401,6 +2424,8 @@ state 79
     (115) reglaSemanticaCondiciones -> . valorGramatico DIFERENTE valorGramatico
     (116) reglaSemanticaCondiciones -> . valorBooleano COMP_IGUAL valorBooleano
     (117) reglaSemanticaCondiciones -> . valorBooleano DIFERENTE valorBooleano
+    (118) reglaSemanticaCondiciones -> . valorBooleano AND valorBooleano
+    (119) reglaSemanticaCondiciones -> . valorBooleano OR valorBooleano
     (76) valorMatematico -> . ENTERO
     (77) valorMatematico -> . DECIMAL
     (78) valorGramatico -> . VARIABLE
@@ -2429,7 +2454,7 @@ state 79
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    codigo                         shift and go to state 141
+    codigo                         shift and go to state 143
     comparacion                    shift and go to state 29
     algoritmo                      shift and go to state 2
     asignacion                     shift and go to state 3
@@ -2465,21 +2490,21 @@ state 80
 
     (26) estructuraMap -> LET VARIABLE . IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
 
-    IGUAL           shift and go to state 142
+    IGUAL           shift and go to state 144
 
 
 state 81
 
     (88) metodosTupla -> LEN PIZQ . VARIABLE PDER PCOMA
 
-    VARIABLE        shift and go to state 143
+    VARIABLE        shift and go to state 145
 
 
 state 82
 
     (94) console -> CONSOLE PUNTO . LOG PIZQ expresion PDER PCOMA
 
-    LOG             shift and go to state 144
+    LOG             shift and go to state 146
 
 
 state 83
@@ -2491,7 +2516,7 @@ state 83
     ENTERO          shift and go to state 36
     DECIMAL         shift and go to state 49
 
-    valorMatematico                shift and go to state 145
+    valorMatematico                shift and go to state 147
 
 state 84
 
@@ -2502,7 +2527,7 @@ state 84
     ENTERO          shift and go to state 36
     DECIMAL         shift and go to state 49
 
-    valorMatematico                shift and go to state 146
+    valorMatematico                shift and go to state 148
 
 state 85
 
@@ -2513,7 +2538,7 @@ state 85
     ENTERO          shift and go to state 36
     DECIMAL         shift and go to state 49
 
-    valorMatematico                shift and go to state 147
+    valorMatematico                shift and go to state 149
 
 state 86
 
@@ -2524,7 +2549,7 @@ state 86
     ENTERO          shift and go to state 36
     DECIMAL         shift and go to state 49
 
-    valorMatematico                shift and go to state 148
+    valorMatematico                shift and go to state 150
 
 state 87
 
@@ -2535,7 +2560,7 @@ state 87
     ENTERO          shift and go to state 36
     DECIMAL         shift and go to state 49
 
-    valorMatematico                shift and go to state 149
+    valorMatematico                shift and go to state 151
 
 state 88
 
@@ -2546,7 +2571,7 @@ state 88
     ENTERO          shift and go to state 36
     DECIMAL         shift and go to state 49
 
-    valorMatematico                shift and go to state 150
+    valorMatematico                shift and go to state 152
 
 state 89
 
@@ -2557,7 +2582,7 @@ state 89
     ENTERO          shift and go to state 36
     DECIMAL         shift and go to state 49
 
-    valorMatematico                shift and go to state 151
+    valorMatematico                shift and go to state 153
 
 state 90
 
@@ -2568,7 +2593,7 @@ state 90
     ENTERO          shift and go to state 36
     DECIMAL         shift and go to state 49
 
-    valorMatematico                shift and go to state 152
+    valorMatematico                shift and go to state 154
 
 state 91
 
@@ -2579,7 +2604,7 @@ state 91
     ENTERO          shift and go to state 36
     DECIMAL         shift and go to state 49
 
-    valorMatematico                shift and go to state 153
+    valorMatematico                shift and go to state 155
 
 state 92
 
@@ -2590,7 +2615,7 @@ state 92
     ENTERO          shift and go to state 36
     DECIMAL         shift and go to state 49
 
-    valorMatematico                shift and go to state 154
+    valorMatematico                shift and go to state 156
 
 state 93
 
@@ -2601,7 +2626,7 @@ state 93
     VARIABLE        shift and go to state 68
     CADENA          shift and go to state 69
 
-    valorGramatico                 shift and go to state 155
+    valorGramatico                 shift and go to state 157
 
 state 94
 
@@ -2612,7 +2637,7 @@ state 94
     VARIABLE        shift and go to state 68
     CADENA          shift and go to state 69
 
-    valorGramatico                 shift and go to state 156
+    valorGramatico                 shift and go to state 158
 
 state 95
 
@@ -2623,7 +2648,7 @@ state 95
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    valorBooleano                  shift and go to state 157
+    valorBooleano                  shift and go to state 159
 
 state 96
 
@@ -2634,9 +2659,31 @@ state 96
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    valorBooleano                  shift and go to state 158
+    valorBooleano                  shift and go to state 160
 
 state 97
+
+    (118) reglaSemanticaCondiciones -> valorBooleano AND . valorBooleano
+    (80) valorBooleano -> . TRUE
+    (81) valorBooleano -> . FALSE
+
+    TRUE            shift and go to state 50
+    FALSE           shift and go to state 51
+
+    valorBooleano                  shift and go to state 161
+
+state 98
+
+    (119) reglaSemanticaCondiciones -> valorBooleano OR . valorBooleano
+    (80) valorBooleano -> . TRUE
+    (81) valorBooleano -> . FALSE
+
+    TRUE            shift and go to state 50
+    FALSE           shift and go to state 51
+
+    valorBooleano                  shift and go to state 162
+
+state 99
 
     (37) asignacion -> VAR VARIABLE tipoasignacion . expresion PCOMA
     (57) expresion -> . valorMatematico
@@ -2656,19 +2703,19 @@ state 97
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    expresion                      shift and go to state 159
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    expresion                      shift and go to state 163
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
-state 98
+state 100
 
     (31) estructuraArreglo -> VAR VARIABLE IGUAL . CIZQ conjunto CDER PCOMA
     (25) estructuraMap -> VAR VARIABLE IGUAL . NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
     (38) tipoasignacion -> IGUAL .
 
-    CIZQ            shift and go to state 160
-    NEW             shift and go to state 161
+    CIZQ            shift and go to state 164
+    NEW             shift and go to state 165
     ENTERO          reduce using rule 38 (tipoasignacion -> IGUAL .)
     DECIMAL         reduce using rule 38 (tipoasignacion -> IGUAL .)
     VARIABLE        reduce using rule 38 (tipoasignacion -> IGUAL .)
@@ -2677,7 +2724,7 @@ state 98
     FALSE           reduce using rule 38 (tipoasignacion -> IGUAL .)
 
 
-state 99
+state 101
 
     (39) tipoasignacion -> ASIG_SUMA .
 
@@ -2689,7 +2736,7 @@ state 99
     FALSE           reduce using rule 39 (tipoasignacion -> ASIG_SUMA .)
 
 
-state 100
+state 102
 
     (40) tipoasignacion -> ASIG_MEN .
 
@@ -2701,7 +2748,7 @@ state 100
     FALSE           reduce using rule 40 (tipoasignacion -> ASIG_MEN .)
 
 
-state 101
+state 103
 
     (41) tipoasignacion -> ASIG_DIV .
 
@@ -2713,7 +2760,7 @@ state 101
     FALSE           reduce using rule 41 (tipoasignacion -> ASIG_DIV .)
 
 
-state 102
+state 104
 
     (42) tipoasignacion -> ASIG_MUL .
 
@@ -2725,7 +2772,7 @@ state 102
     FALSE           reduce using rule 42 (tipoasignacion -> ASIG_MUL .)
 
 
-state 103
+state 105
 
     (43) tipoasignacion -> ASIG_BOR .
 
@@ -2737,7 +2784,7 @@ state 103
     FALSE           reduce using rule 43 (tipoasignacion -> ASIG_BOR .)
 
 
-state 104
+state 106
 
     (44) tipoasignacion -> ASIG_BAN .
 
@@ -2749,7 +2796,7 @@ state 104
     FALSE           reduce using rule 44 (tipoasignacion -> ASIG_BAN .)
 
 
-state 105
+state 107
 
     (45) tipoasignacion -> ASIG_XOR .
 
@@ -2761,7 +2808,7 @@ state 105
     FALSE           reduce using rule 45 (tipoasignacion -> ASIG_XOR .)
 
 
-state 106
+state 108
 
     (46) tipoasignacion -> ASIG_RESDU .
 
@@ -2773,7 +2820,7 @@ state 106
     FALSE           reduce using rule 46 (tipoasignacion -> ASIG_RESDU .)
 
 
-state 107
+state 109
 
     (47) tipoasignacion -> ASIG_EXPO .
 
@@ -2785,7 +2832,7 @@ state 107
     FALSE           reduce using rule 47 (tipoasignacion -> ASIG_EXPO .)
 
 
-state 108
+state 110
 
     (48) tipoasignacion -> ASIG_DE_I .
 
@@ -2797,7 +2844,7 @@ state 108
     FALSE           reduce using rule 48 (tipoasignacion -> ASIG_DE_I .)
 
 
-state 109
+state 111
 
     (49) tipoasignacion -> ASIG_DE_D .
 
@@ -2809,7 +2856,7 @@ state 109
     FALSE           reduce using rule 49 (tipoasignacion -> ASIG_DE_D .)
 
 
-state 110
+state 112
 
     (50) tipoasignacion -> ASIG_DSG .
 
@@ -2821,7 +2868,7 @@ state 110
     FALSE           reduce using rule 50 (tipoasignacion -> ASIG_DSG .)
 
 
-state 111
+state 113
 
     (51) tipoasignacion -> ASIG_OR .
 
@@ -2833,7 +2880,7 @@ state 111
     FALSE           reduce using rule 51 (tipoasignacion -> ASIG_OR .)
 
 
-state 112
+state 114
 
     (52) tipoasignacion -> ASIG_ANU .
 
@@ -2845,70 +2892,70 @@ state 112
     FALSE           reduce using rule 52 (tipoasignacion -> ASIG_ANU .)
 
 
-state 113
-
-    (32) metodosArreglos -> VARIABLE PUNTO PUSH . PIZQ expresion PDER PCOMA
-
-    PIZQ            shift and go to state 162
-
-
-state 114
-
-    (33) metodosArreglos -> VARIABLE PUNTO POP . PIZQ PDER PCOMA
-
-    PIZQ            shift and go to state 163
-
-
 state 115
 
-    (34) metodosArreglos -> VARIABLE PUNTO JOIN . PIZQ PDER PCOMA
-
-    PIZQ            shift and go to state 164
-
-
-state 116
-
-    (27) funcionesMap -> VARIABLE PUNTO ADD . PIZQ expresion PDER PCOMA
-
-    PIZQ            shift and go to state 165
-
-
-state 117
-
-    (28) funcionesMap -> VARIABLE PUNTO HAS . PIZQ expresion PDER PCOMA
+    (32) metodosArreglos -> VARIABLE PUNTO PUSH . PIZQ expresion PDER PCOMA
 
     PIZQ            shift and go to state 166
 
 
-state 118
+state 116
 
-    (29) funcionesMap -> VARIABLE PUNTO FOREACH . PIZQ PIZQ VARIABLE PDER DERECHA LIZQ console LDER PDER PCOMA
+    (33) metodosArreglos -> VARIABLE PUNTO POP . PIZQ PDER PCOMA
 
     PIZQ            shift and go to state 167
 
 
-state 119
+state 117
 
-    (86) metodosTupla -> VARIABLE PUNTO INDEX . PIZQ expresion PDER PCOMA
+    (34) metodosArreglos -> VARIABLE PUNTO JOIN . PIZQ PDER PCOMA
 
     PIZQ            shift and go to state 168
 
 
-state 120
+state 118
 
-    (87) metodosTupla -> VARIABLE PUNTO COUNT . PIZQ VARIABLE PDER PCOMA
+    (27) funcionesMap -> VARIABLE PUNTO ADD . PIZQ expresion PDER PCOMA
 
     PIZQ            shift and go to state 169
 
 
+state 119
+
+    (28) funcionesMap -> VARIABLE PUNTO HAS . PIZQ expresion PDER PCOMA
+
+    PIZQ            shift and go to state 170
+
+
+state 120
+
+    (29) funcionesMap -> VARIABLE PUNTO FOREACH . PIZQ PIZQ VARIABLE PDER DERECHA LIZQ console LDER PDER PCOMA
+
+    PIZQ            shift and go to state 171
+
+
 state 121
 
-    (65) sentenciaOR -> expresion OR expresion . PCOMA
+    (86) metodosTupla -> VARIABLE PUNTO INDEX . PIZQ expresion PDER PCOMA
 
-    PCOMA           shift and go to state 170
+    PIZQ            shift and go to state 172
 
 
 state 122
+
+    (87) metodosTupla -> VARIABLE PUNTO COUNT . PIZQ VARIABLE PDER PCOMA
+
+    PIZQ            shift and go to state 173
+
+
+state 123
+
+    (65) sentenciaOR -> expresion OR expresion . PCOMA
+
+    PCOMA           shift and go to state 174
+
+
+state 124
 
     (57) expresion -> valorMatematico .
 
@@ -2925,7 +2972,7 @@ state 122
     COMILL          reduce using rule 57 (expresion -> valorMatematico .)
 
 
-state 123
+state 125
 
     (58) expresion -> valorGramatico .
 
@@ -2942,7 +2989,7 @@ state 123
     COMILL          reduce using rule 58 (expresion -> valorGramatico .)
 
 
-state 124
+state 126
 
     (59) expresion -> valorBooleano .
 
@@ -2959,14 +3006,14 @@ state 124
     COMILL          reduce using rule 59 (expresion -> valorBooleano .)
 
 
-state 125
+state 127
 
     (64) sentenciaAND -> expresion AND expresion . PCOMA
 
-    PCOMA           shift and go to state 171
+    PCOMA           shift and go to state 175
 
 
-state 126
+state 128
 
     (60) comparacion -> expresion operadorComp expresion .
 
@@ -2976,14 +3023,14 @@ state 126
     PDER            reduce using rule 60 (comparacion -> expresion operadorComp expresion .)
 
 
-state 127
+state 129
 
     (30) sentenciaWHILE -> WHILE PIZQ comparacion . PDER LIZQ codigo LDER
 
-    PDER            shift and go to state 172
+    PDER            shift and go to state 176
 
 
-state 128
+state 130
 
     (60) comparacion -> expresion . operadorComp expresion
     (72) operadorComp -> . MAYOR
@@ -2998,7 +3045,7 @@ state 128
 
     operadorComp                   shift and go to state 57
 
-state 129
+state 131
 
     (56) expresion_aritmetica -> PIZQ reglaSemanticaOperaciones PDER .
 
@@ -3027,7 +3074,7 @@ state 129
     BREAK           reduce using rule 56 (expresion_aritmetica -> PIZQ reglaSemanticaOperaciones PDER .)
 
 
-state 130
+state 132
 
     (54) condiciones -> PIZQ reglaSemanticaCondiciones PDER .
 
@@ -3056,71 +3103,71 @@ state 130
     BREAK           reduce using rule 54 (condiciones -> PIZQ reglaSemanticaCondiciones PDER .)
 
 
-state 131
+state 133
 
     (62) comparaciones -> comparacion AND comparacion . PCOMA
 
-    PCOMA           shift and go to state 173
-
-
-state 132
-
-    (63) comparaciones -> comparacion OR comparacion . PCOMA
-
-    PCOMA           shift and go to state 174
-
-
-state 133
-
-    (82) sentenciaIf -> IF PIZQ comparacion . PDER LIZQ codigo LDER
-    (83) sentenciaIf -> IF PIZQ comparacion . PDER LIZQ codigo LDER ELSE LIZQ codigo LDER
-
-    PDER            shift and go to state 175
+    PCOMA           shift and go to state 177
 
 
 state 134
 
-    (89) switch -> SWITCH PIZQ expresion . PDER cuerpoSwitch
-
-    PDER            shift and go to state 176
-
-
-state 135
-
-    (95) sentenciaFor -> FOR PIZQ condicionFor . PDER LIZQ codigo LDER
-
-    PDER            shift and go to state 177
-
-
-state 136
-
-    (96) condicionFor -> asignacion . PCOMA comparacion PCOMA VARIABLE DEC
+    (63) comparaciones -> comparacion OR comparacion . PCOMA
 
     PCOMA           shift and go to state 178
 
 
+state 135
+
+    (82) sentenciaIf -> IF PIZQ comparacion . PDER LIZQ codigo LDER
+    (83) sentenciaIf -> IF PIZQ comparacion . PDER LIZQ codigo LDER ELSE LIZQ codigo LDER
+
+    PDER            shift and go to state 179
+
+
+state 136
+
+    (89) switch -> SWITCH PIZQ expresion . PDER cuerpoSwitch
+
+    PDER            shift and go to state 180
+
+
 state 137
 
-    (37) asignacion -> VAR . VARIABLE tipoasignacion expresion PCOMA
+    (95) sentenciaFor -> FOR PIZQ condicionFor . PDER LIZQ codigo LDER
 
-    VARIABLE        shift and go to state 179
+    PDER            shift and go to state 181
 
 
 state 138
 
-    (97) crearVariable -> instruccionVL VARIABLE IGUAL . ENTERO
+    (96) condicionFor -> asignacion . PCOMA comparacion PCOMA VARIABLE DEC
 
-    ENTERO          shift and go to state 180
+    PCOMA           shift and go to state 182
 
 
 state 139
 
-    (101) crearObjeto -> CONST VARIABLE IGUAL . NEW OBJECT PIZQ PDER PCOMA
+    (37) asignacion -> VAR . VARIABLE tipoasignacion expresion PCOMA
 
-    NEW             shift and go to state 181
+    VARIABLE        shift and go to state 183
 
 
 state 140
+
+    (97) crearVariable -> instruccionVL VARIABLE IGUAL . ENTERO
+
+    ENTERO          shift and go to state 184
+
+
+state 141
+
+    (101) crearObjeto -> CONST VARIABLE IGUAL . NEW OBJECT PIZQ PDER PCOMA
+
+    NEW             shift and go to state 185
+
+
+state 142
 
     (102) crearFunction -> FUNCTION VARIABLE PIZQ . conjunto PDER LIZQ cuerpoFunction LDER
     (35) conjunto -> . expresion
@@ -3142,41 +3189,41 @@ state 140
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    conjunto                       shift and go to state 182
-    expresion                      shift and go to state 183
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
-
-state 141
-
-    (24) sentenciaDo -> DO LIZQ codigo . LDER WHILE PIZQ comparacion PDER PCOMA
-
-    LDER            shift and go to state 184
-
-
-state 142
-
-    (26) estructuraMap -> LET VARIABLE IGUAL . NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
-
-    NEW             shift and go to state 185
-
+    conjunto                       shift and go to state 186
+    expresion                      shift and go to state 187
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
 state 143
 
-    (88) metodosTupla -> LEN PIZQ VARIABLE . PDER PCOMA
+    (24) sentenciaDo -> DO LIZQ codigo . LDER WHILE PIZQ comparacion PDER PCOMA
 
-    PDER            shift and go to state 186
+    LDER            shift and go to state 188
 
 
 state 144
 
-    (94) console -> CONSOLE PUNTO LOG . PIZQ expresion PDER PCOMA
+    (26) estructuraMap -> LET VARIABLE IGUAL . NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
 
-    PIZQ            shift and go to state 187
+    NEW             shift and go to state 189
 
 
 state 145
+
+    (88) metodosTupla -> LEN PIZQ VARIABLE . PDER PCOMA
+
+    PDER            shift and go to state 190
+
+
+state 146
+
+    (94) console -> CONSOLE PUNTO LOG . PIZQ expresion PDER PCOMA
+
+    PIZQ            shift and go to state 191
+
+
+state 147
 
     (104) reglaSemanticaOperaciones -> valorMatematico MAS valorMatematico .
 
@@ -3206,7 +3253,7 @@ state 145
     PDER            reduce using rule 104 (reglaSemanticaOperaciones -> valorMatematico MAS valorMatematico .)
 
 
-state 146
+state 148
 
     (105) reglaSemanticaOperaciones -> valorMatematico RESTA valorMatematico .
 
@@ -3236,7 +3283,7 @@ state 146
     PDER            reduce using rule 105 (reglaSemanticaOperaciones -> valorMatematico RESTA valorMatematico .)
 
 
-state 147
+state 149
 
     (106) reglaSemanticaOperaciones -> valorMatematico PROD valorMatematico .
 
@@ -3266,7 +3313,7 @@ state 147
     PDER            reduce using rule 106 (reglaSemanticaOperaciones -> valorMatematico PROD valorMatematico .)
 
 
-state 148
+state 150
 
     (107) reglaSemanticaOperaciones -> valorMatematico DIVISION valorMatematico .
 
@@ -3296,7 +3343,7 @@ state 148
     PDER            reduce using rule 107 (reglaSemanticaOperaciones -> valorMatematico DIVISION valorMatematico .)
 
 
-state 149
+state 151
 
     (108) reglaSemanticaOperaciones -> valorMatematico MOD valorMatematico .
 
@@ -3326,7 +3373,7 @@ state 149
     PDER            reduce using rule 108 (reglaSemanticaOperaciones -> valorMatematico MOD valorMatematico .)
 
 
-state 150
+state 152
 
     (109) reglaSemanticaOperaciones -> valorMatematico POTENCIA valorMatematico .
 
@@ -3356,7 +3403,7 @@ state 150
     PDER            reduce using rule 109 (reglaSemanticaOperaciones -> valorMatematico POTENCIA valorMatematico .)
 
 
-state 151
+state 153
 
     (110) reglaSemanticaCondiciones -> valorMatematico COMP_IGUAL valorMatematico .
 
@@ -3386,7 +3433,7 @@ state 151
     PDER            reduce using rule 110 (reglaSemanticaCondiciones -> valorMatematico COMP_IGUAL valorMatematico .)
 
 
-state 152
+state 154
 
     (111) reglaSemanticaCondiciones -> valorMatematico MENOR valorMatematico .
 
@@ -3416,7 +3463,7 @@ state 152
     PDER            reduce using rule 111 (reglaSemanticaCondiciones -> valorMatematico MENOR valorMatematico .)
 
 
-state 153
+state 155
 
     (112) reglaSemanticaCondiciones -> valorMatematico MAYOR valorMatematico .
 
@@ -3446,7 +3493,7 @@ state 153
     PDER            reduce using rule 112 (reglaSemanticaCondiciones -> valorMatematico MAYOR valorMatematico .)
 
 
-state 154
+state 156
 
     (113) reglaSemanticaCondiciones -> valorMatematico DIFERENTE valorMatematico .
 
@@ -3476,7 +3523,7 @@ state 154
     PDER            reduce using rule 113 (reglaSemanticaCondiciones -> valorMatematico DIFERENTE valorMatematico .)
 
 
-state 155
+state 157
 
     (114) reglaSemanticaCondiciones -> valorGramatico COMP_IGUAL valorGramatico .
 
@@ -3506,7 +3553,7 @@ state 155
     PDER            reduce using rule 114 (reglaSemanticaCondiciones -> valorGramatico COMP_IGUAL valorGramatico .)
 
 
-state 156
+state 158
 
     (115) reglaSemanticaCondiciones -> valorGramatico DIFERENTE valorGramatico .
 
@@ -3536,7 +3583,7 @@ state 156
     PDER            reduce using rule 115 (reglaSemanticaCondiciones -> valorGramatico DIFERENTE valorGramatico .)
 
 
-state 157
+state 159
 
     (116) reglaSemanticaCondiciones -> valorBooleano COMP_IGUAL valorBooleano .
 
@@ -3566,7 +3613,7 @@ state 157
     PDER            reduce using rule 116 (reglaSemanticaCondiciones -> valorBooleano COMP_IGUAL valorBooleano .)
 
 
-state 158
+state 160
 
     (117) reglaSemanticaCondiciones -> valorBooleano DIFERENTE valorBooleano .
 
@@ -3596,14 +3643,74 @@ state 158
     PDER            reduce using rule 117 (reglaSemanticaCondiciones -> valorBooleano DIFERENTE valorBooleano .)
 
 
-state 159
+state 161
+
+    (118) reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .
+
+    VAR             reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    WHILE           reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    IF              reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    COMENTARIO_EN_LINEA reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    COMENTARIO_MULTILINEA reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    SWITCH          reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    FOR             reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    CADENA          reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    CONST           reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    FUNCTION        reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    VARIABLE        reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    DO              reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    LET             reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    LEN             reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    PIZQ            reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    CONSOLE         reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    ENTERO          reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    DECIMAL         reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    TRUE            reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    FALSE           reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    $end            reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    LDER            reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    BREAK           reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+    PDER            reduce using rule 118 (reglaSemanticaCondiciones -> valorBooleano AND valorBooleano .)
+
+
+state 162
+
+    (119) reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .
+
+    VAR             reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    WHILE           reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    IF              reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    COMENTARIO_EN_LINEA reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    COMENTARIO_MULTILINEA reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    SWITCH          reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    FOR             reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    CADENA          reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    CONST           reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    FUNCTION        reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    VARIABLE        reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    DO              reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    LET             reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    LEN             reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    PIZQ            reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    CONSOLE         reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    ENTERO          reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    DECIMAL         reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    TRUE            reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    FALSE           reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    $end            reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    LDER            reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    BREAK           reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+    PDER            reduce using rule 119 (reglaSemanticaCondiciones -> valorBooleano OR valorBooleano .)
+
+
+state 163
 
     (37) asignacion -> VAR VARIABLE tipoasignacion expresion . PCOMA
 
-    PCOMA           shift and go to state 188
+    PCOMA           shift and go to state 192
 
 
-state 160
+state 164
 
     (31) estructuraArreglo -> VAR VARIABLE IGUAL CIZQ . conjunto CDER PCOMA
     (35) conjunto -> . expresion
@@ -3625,20 +3732,20 @@ state 160
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    conjunto                       shift and go to state 189
-    expresion                      shift and go to state 183
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    conjunto                       shift and go to state 193
+    expresion                      shift and go to state 187
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
-state 161
+state 165
 
     (25) estructuraMap -> VAR VARIABLE IGUAL NEW . SET PIZQ CIZQ conjunto CDER PDER PCOMA
 
-    SET             shift and go to state 190
+    SET             shift and go to state 194
 
 
-state 162
+state 166
 
     (32) metodosArreglos -> VARIABLE PUNTO PUSH PIZQ . expresion PDER PCOMA
     (57) expresion -> . valorMatematico
@@ -3658,26 +3765,26 @@ state 162
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    expresion                      shift and go to state 191
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    expresion                      shift and go to state 195
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
-state 163
+state 167
 
     (33) metodosArreglos -> VARIABLE PUNTO POP PIZQ . PDER PCOMA
 
-    PDER            shift and go to state 192
+    PDER            shift and go to state 196
 
 
-state 164
+state 168
 
     (34) metodosArreglos -> VARIABLE PUNTO JOIN PIZQ . PDER PCOMA
 
-    PDER            shift and go to state 193
+    PDER            shift and go to state 197
 
 
-state 165
+state 169
 
     (27) funcionesMap -> VARIABLE PUNTO ADD PIZQ . expresion PDER PCOMA
     (57) expresion -> . valorMatematico
@@ -3697,12 +3804,12 @@ state 165
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    expresion                      shift and go to state 194
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    expresion                      shift and go to state 198
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
-state 166
+state 170
 
     (28) funcionesMap -> VARIABLE PUNTO HAS PIZQ . expresion PDER PCOMA
     (57) expresion -> . valorMatematico
@@ -3722,19 +3829,19 @@ state 166
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    expresion                      shift and go to state 195
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    expresion                      shift and go to state 199
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
-state 167
+state 171
 
     (29) funcionesMap -> VARIABLE PUNTO FOREACH PIZQ . PIZQ VARIABLE PDER DERECHA LIZQ console LDER PDER PCOMA
 
-    PIZQ            shift and go to state 196
+    PIZQ            shift and go to state 200
 
 
-state 168
+state 172
 
     (86) metodosTupla -> VARIABLE PUNTO INDEX PIZQ . expresion PDER PCOMA
     (57) expresion -> . valorMatematico
@@ -3754,19 +3861,19 @@ state 168
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    expresion                      shift and go to state 197
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    expresion                      shift and go to state 201
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
-state 169
+state 173
 
     (87) metodosTupla -> VARIABLE PUNTO COUNT PIZQ . VARIABLE PDER PCOMA
 
-    VARIABLE        shift and go to state 198
+    VARIABLE        shift and go to state 202
 
 
-state 170
+state 174
 
     (65) sentenciaOR -> expresion OR expresion PCOMA .
 
@@ -3795,7 +3902,7 @@ state 170
     BREAK           reduce using rule 65 (sentenciaOR -> expresion OR expresion PCOMA .)
 
 
-state 171
+state 175
 
     (64) sentenciaAND -> expresion AND expresion PCOMA .
 
@@ -3824,14 +3931,14 @@ state 171
     BREAK           reduce using rule 64 (sentenciaAND -> expresion AND expresion PCOMA .)
 
 
-state 172
+state 176
 
     (30) sentenciaWHILE -> WHILE PIZQ comparacion PDER . LIZQ codigo LDER
 
-    LIZQ            shift and go to state 199
+    LIZQ            shift and go to state 203
 
 
-state 173
+state 177
 
     (62) comparaciones -> comparacion AND comparacion PCOMA .
 
@@ -3860,7 +3967,7 @@ state 173
     BREAK           reduce using rule 62 (comparaciones -> comparacion AND comparacion PCOMA .)
 
 
-state 174
+state 178
 
     (63) comparaciones -> comparacion OR comparacion PCOMA .
 
@@ -3889,15 +3996,15 @@ state 174
     BREAK           reduce using rule 63 (comparaciones -> comparacion OR comparacion PCOMA .)
 
 
-state 175
+state 179
 
     (82) sentenciaIf -> IF PIZQ comparacion PDER . LIZQ codigo LDER
     (83) sentenciaIf -> IF PIZQ comparacion PDER . LIZQ codigo LDER ELSE LIZQ codigo LDER
 
-    LIZQ            shift and go to state 200
+    LIZQ            shift and go to state 204
 
 
-state 176
+state 180
 
     (89) switch -> SWITCH PIZQ expresion PDER . cuerpoSwitch
     (90) cuerpoSwitch -> . case
@@ -3905,21 +4012,21 @@ state 176
     (92) case -> . CASE COMILL expresion COMILL COLON codigo BREAK PCOMA
     (93) default -> . DEFAULT COLON codigo
 
-    CASE            shift and go to state 204
-    DEFAULT         shift and go to state 205
+    CASE            shift and go to state 208
+    DEFAULT         shift and go to state 209
 
-    cuerpoSwitch                   shift and go to state 201
-    case                           shift and go to state 202
-    default                        shift and go to state 203
+    cuerpoSwitch                   shift and go to state 205
+    case                           shift and go to state 206
+    default                        shift and go to state 207
 
-state 177
+state 181
 
     (95) sentenciaFor -> FOR PIZQ condicionFor PDER . LIZQ codigo LDER
 
-    LIZQ            shift and go to state 206
+    LIZQ            shift and go to state 210
 
 
-state 178
+state 182
 
     (96) condicionFor -> asignacion PCOMA . comparacion PCOMA VARIABLE DEC
     (60) comparacion -> . expresion operadorComp expresion
@@ -3940,13 +4047,13 @@ state 178
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    comparacion                    shift and go to state 207
-    expresion                      shift and go to state 128
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    comparacion                    shift and go to state 211
+    expresion                      shift and go to state 130
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
-state 179
+state 183
 
     (37) asignacion -> VAR VARIABLE . tipoasignacion expresion PCOMA
     (38) tipoasignacion -> . IGUAL
@@ -3965,25 +4072,25 @@ state 179
     (51) tipoasignacion -> . ASIG_OR
     (52) tipoasignacion -> . ASIG_ANU
 
-    IGUAL           shift and go to state 208
-    ASIG_SUMA       shift and go to state 99
-    ASIG_MEN        shift and go to state 100
-    ASIG_DIV        shift and go to state 101
-    ASIG_MUL        shift and go to state 102
-    ASIG_BOR        shift and go to state 103
-    ASIG_BAN        shift and go to state 104
-    ASIG_XOR        shift and go to state 105
-    ASIG_RESDU      shift and go to state 106
-    ASIG_EXPO       shift and go to state 107
-    ASIG_DE_I       shift and go to state 108
-    ASIG_DE_D       shift and go to state 109
-    ASIG_DSG        shift and go to state 110
-    ASIG_OR         shift and go to state 111
-    ASIG_ANU        shift and go to state 112
+    IGUAL           shift and go to state 212
+    ASIG_SUMA       shift and go to state 101
+    ASIG_MEN        shift and go to state 102
+    ASIG_DIV        shift and go to state 103
+    ASIG_MUL        shift and go to state 104
+    ASIG_BOR        shift and go to state 105
+    ASIG_BAN        shift and go to state 106
+    ASIG_XOR        shift and go to state 107
+    ASIG_RESDU      shift and go to state 108
+    ASIG_EXPO       shift and go to state 109
+    ASIG_DE_I       shift and go to state 110
+    ASIG_DE_D       shift and go to state 111
+    ASIG_DSG        shift and go to state 112
+    ASIG_OR         shift and go to state 113
+    ASIG_ANU        shift and go to state 114
 
-    tipoasignacion                 shift and go to state 97
+    tipoasignacion                 shift and go to state 99
 
-state 180
+state 184
 
     (97) crearVariable -> instruccionVL VARIABLE IGUAL ENTERO .
 
@@ -4012,52 +4119,52 @@ state 180
     BREAK           reduce using rule 97 (crearVariable -> instruccionVL VARIABLE IGUAL ENTERO .)
 
 
-state 181
+state 185
 
     (101) crearObjeto -> CONST VARIABLE IGUAL NEW . OBJECT PIZQ PDER PCOMA
 
-    OBJECT          shift and go to state 209
+    OBJECT          shift and go to state 213
 
 
-state 182
+state 186
 
     (102) crearFunction -> FUNCTION VARIABLE PIZQ conjunto . PDER LIZQ cuerpoFunction LDER
 
-    PDER            shift and go to state 210
+    PDER            shift and go to state 214
 
 
-state 183
+state 187
 
     (35) conjunto -> expresion .
     (36) conjunto -> expresion . COMA conjunto
 
     PDER            reduce using rule 35 (conjunto -> expresion .)
     CDER            reduce using rule 35 (conjunto -> expresion .)
-    COMA            shift and go to state 211
+    COMA            shift and go to state 215
 
 
-state 184
+state 188
 
     (24) sentenciaDo -> DO LIZQ codigo LDER . WHILE PIZQ comparacion PDER PCOMA
 
-    WHILE           shift and go to state 212
+    WHILE           shift and go to state 216
 
 
-state 185
+state 189
 
     (26) estructuraMap -> LET VARIABLE IGUAL NEW . SET PIZQ CIZQ conjunto CDER PDER PCOMA
 
-    SET             shift and go to state 213
+    SET             shift and go to state 217
 
 
-state 186
+state 190
 
     (88) metodosTupla -> LEN PIZQ VARIABLE PDER . PCOMA
 
-    PCOMA           shift and go to state 214
+    PCOMA           shift and go to state 218
 
 
-state 187
+state 191
 
     (94) console -> CONSOLE PUNTO LOG PIZQ . expresion PDER PCOMA
     (57) expresion -> . valorMatematico
@@ -4077,12 +4184,12 @@ state 187
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    expresion                      shift and go to state 215
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    expresion                      shift and go to state 219
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
-state 188
+state 192
 
     (37) asignacion -> VAR VARIABLE tipoasignacion expresion PCOMA .
 
@@ -4112,77 +4219,77 @@ state 188
     PCOMA           reduce using rule 37 (asignacion -> VAR VARIABLE tipoasignacion expresion PCOMA .)
 
 
-state 189
+state 193
 
     (31) estructuraArreglo -> VAR VARIABLE IGUAL CIZQ conjunto . CDER PCOMA
 
-    CDER            shift and go to state 216
-
-
-state 190
-
-    (25) estructuraMap -> VAR VARIABLE IGUAL NEW SET . PIZQ CIZQ conjunto CDER PDER PCOMA
-
-    PIZQ            shift and go to state 217
-
-
-state 191
-
-    (32) metodosArreglos -> VARIABLE PUNTO PUSH PIZQ expresion . PDER PCOMA
-
-    PDER            shift and go to state 218
-
-
-state 192
-
-    (33) metodosArreglos -> VARIABLE PUNTO POP PIZQ PDER . PCOMA
-
-    PCOMA           shift and go to state 219
-
-
-state 193
-
-    (34) metodosArreglos -> VARIABLE PUNTO JOIN PIZQ PDER . PCOMA
-
-    PCOMA           shift and go to state 220
+    CDER            shift and go to state 220
 
 
 state 194
 
-    (27) funcionesMap -> VARIABLE PUNTO ADD PIZQ expresion . PDER PCOMA
+    (25) estructuraMap -> VAR VARIABLE IGUAL NEW SET . PIZQ CIZQ conjunto CDER PDER PCOMA
 
-    PDER            shift and go to state 221
+    PIZQ            shift and go to state 221
 
 
 state 195
 
-    (28) funcionesMap -> VARIABLE PUNTO HAS PIZQ expresion . PDER PCOMA
+    (32) metodosArreglos -> VARIABLE PUNTO PUSH PIZQ expresion . PDER PCOMA
 
     PDER            shift and go to state 222
 
 
 state 196
 
-    (29) funcionesMap -> VARIABLE PUNTO FOREACH PIZQ PIZQ . VARIABLE PDER DERECHA LIZQ console LDER PDER PCOMA
+    (33) metodosArreglos -> VARIABLE PUNTO POP PIZQ PDER . PCOMA
 
-    VARIABLE        shift and go to state 223
+    PCOMA           shift and go to state 223
 
 
 state 197
 
-    (86) metodosTupla -> VARIABLE PUNTO INDEX PIZQ expresion . PDER PCOMA
+    (34) metodosArreglos -> VARIABLE PUNTO JOIN PIZQ PDER . PCOMA
 
-    PDER            shift and go to state 224
+    PCOMA           shift and go to state 224
 
 
 state 198
 
-    (87) metodosTupla -> VARIABLE PUNTO COUNT PIZQ VARIABLE . PDER PCOMA
+    (27) funcionesMap -> VARIABLE PUNTO ADD PIZQ expresion . PDER PCOMA
 
     PDER            shift and go to state 225
 
 
 state 199
+
+    (28) funcionesMap -> VARIABLE PUNTO HAS PIZQ expresion . PDER PCOMA
+
+    PDER            shift and go to state 226
+
+
+state 200
+
+    (29) funcionesMap -> VARIABLE PUNTO FOREACH PIZQ PIZQ . VARIABLE PDER DERECHA LIZQ console LDER PDER PCOMA
+
+    VARIABLE        shift and go to state 227
+
+
+state 201
+
+    (86) metodosTupla -> VARIABLE PUNTO INDEX PIZQ expresion . PDER PCOMA
+
+    PDER            shift and go to state 228
+
+
+state 202
+
+    (87) metodosTupla -> VARIABLE PUNTO COUNT PIZQ VARIABLE . PDER PCOMA
+
+    PDER            shift and go to state 229
+
+
+state 203
 
     (30) sentenciaWHILE -> WHILE PIZQ comparacion PDER LIZQ . codigo LDER
     (1) codigo -> . algoritmo
@@ -4263,6 +4370,8 @@ state 199
     (115) reglaSemanticaCondiciones -> . valorGramatico DIFERENTE valorGramatico
     (116) reglaSemanticaCondiciones -> . valorBooleano COMP_IGUAL valorBooleano
     (117) reglaSemanticaCondiciones -> . valorBooleano DIFERENTE valorBooleano
+    (118) reglaSemanticaCondiciones -> . valorBooleano AND valorBooleano
+    (119) reglaSemanticaCondiciones -> . valorBooleano OR valorBooleano
     (76) valorMatematico -> . ENTERO
     (77) valorMatematico -> . DECIMAL
     (78) valorGramatico -> . VARIABLE
@@ -4292,7 +4401,7 @@ state 199
     FALSE           shift and go to state 51
 
     comparacion                    shift and go to state 29
-    codigo                         shift and go to state 226
+    codigo                         shift and go to state 230
     algoritmo                      shift and go to state 2
     asignacion                     shift and go to state 3
     sentenciaWHILE                 shift and go to state 4
@@ -4323,7 +4432,7 @@ state 199
     valorGramatico                 shift and go to state 47
     valorBooleano                  shift and go to state 48
 
-state 200
+state 204
 
     (82) sentenciaIf -> IF PIZQ comparacion PDER LIZQ . codigo LDER
     (83) sentenciaIf -> IF PIZQ comparacion PDER LIZQ . codigo LDER ELSE LIZQ codigo LDER
@@ -4405,6 +4514,8 @@ state 200
     (115) reglaSemanticaCondiciones -> . valorGramatico DIFERENTE valorGramatico
     (116) reglaSemanticaCondiciones -> . valorBooleano COMP_IGUAL valorBooleano
     (117) reglaSemanticaCondiciones -> . valorBooleano DIFERENTE valorBooleano
+    (118) reglaSemanticaCondiciones -> . valorBooleano AND valorBooleano
+    (119) reglaSemanticaCondiciones -> . valorBooleano OR valorBooleano
     (76) valorMatematico -> . ENTERO
     (77) valorMatematico -> . DECIMAL
     (78) valorGramatico -> . VARIABLE
@@ -4434,7 +4545,7 @@ state 200
     FALSE           shift and go to state 51
 
     comparacion                    shift and go to state 29
-    codigo                         shift and go to state 227
+    codigo                         shift and go to state 231
     algoritmo                      shift and go to state 2
     asignacion                     shift and go to state 3
     sentenciaWHILE                 shift and go to state 4
@@ -4465,7 +4576,7 @@ state 200
     valorGramatico                 shift and go to state 47
     valorBooleano                  shift and go to state 48
 
-state 201
+state 205
 
     (89) switch -> SWITCH PIZQ expresion PDER cuerpoSwitch .
 
@@ -4494,7 +4605,7 @@ state 201
     BREAK           reduce using rule 89 (switch -> SWITCH PIZQ expresion PDER cuerpoSwitch .)
 
 
-state 202
+state 206
 
     (90) cuerpoSwitch -> case .
 
@@ -4523,7 +4634,7 @@ state 202
     BREAK           reduce using rule 90 (cuerpoSwitch -> case .)
 
 
-state 203
+state 207
 
     (91) cuerpoSwitch -> default .
 
@@ -4552,21 +4663,21 @@ state 203
     BREAK           reduce using rule 91 (cuerpoSwitch -> default .)
 
 
-state 204
+state 208
 
     (92) case -> CASE . COMILL expresion COMILL COLON codigo BREAK PCOMA
 
-    COMILL          shift and go to state 228
+    COMILL          shift and go to state 232
 
 
-state 205
+state 209
 
     (93) default -> DEFAULT . COLON codigo
 
-    COLON           shift and go to state 229
+    COLON           shift and go to state 233
 
 
-state 206
+state 210
 
     (95) sentenciaFor -> FOR PIZQ condicionFor PDER LIZQ . codigo LDER
     (1) codigo -> . algoritmo
@@ -4647,6 +4758,8 @@ state 206
     (115) reglaSemanticaCondiciones -> . valorGramatico DIFERENTE valorGramatico
     (116) reglaSemanticaCondiciones -> . valorBooleano COMP_IGUAL valorBooleano
     (117) reglaSemanticaCondiciones -> . valorBooleano DIFERENTE valorBooleano
+    (118) reglaSemanticaCondiciones -> . valorBooleano AND valorBooleano
+    (119) reglaSemanticaCondiciones -> . valorBooleano OR valorBooleano
     (76) valorMatematico -> . ENTERO
     (77) valorMatematico -> . DECIMAL
     (78) valorGramatico -> . VARIABLE
@@ -4675,7 +4788,7 @@ state 206
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    codigo                         shift and go to state 230
+    codigo                         shift and go to state 234
     algoritmo                      shift and go to state 2
     asignacion                     shift and go to state 3
     sentenciaWHILE                 shift and go to state 4
@@ -4707,14 +4820,14 @@ state 206
     valorGramatico                 shift and go to state 47
     valorBooleano                  shift and go to state 48
 
-state 207
+state 211
 
     (96) condicionFor -> asignacion PCOMA comparacion . PCOMA VARIABLE DEC
 
-    PCOMA           shift and go to state 231
+    PCOMA           shift and go to state 235
 
 
-state 208
+state 212
 
     (38) tipoasignacion -> IGUAL .
 
@@ -4726,21 +4839,21 @@ state 208
     FALSE           reduce using rule 38 (tipoasignacion -> IGUAL .)
 
 
-state 209
+state 213
 
     (101) crearObjeto -> CONST VARIABLE IGUAL NEW OBJECT . PIZQ PDER PCOMA
 
-    PIZQ            shift and go to state 232
+    PIZQ            shift and go to state 236
 
 
-state 210
+state 214
 
     (102) crearFunction -> FUNCTION VARIABLE PIZQ conjunto PDER . LIZQ cuerpoFunction LDER
 
-    LIZQ            shift and go to state 233
+    LIZQ            shift and go to state 237
 
 
-state 211
+state 215
 
     (36) conjunto -> expresion COMA . conjunto
     (35) conjunto -> . expresion
@@ -4762,27 +4875,27 @@ state 211
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    expresion                      shift and go to state 183
-    conjunto                       shift and go to state 234
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    expresion                      shift and go to state 187
+    conjunto                       shift and go to state 238
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
-state 212
+state 216
 
     (24) sentenciaDo -> DO LIZQ codigo LDER WHILE . PIZQ comparacion PDER PCOMA
 
-    PIZQ            shift and go to state 235
+    PIZQ            shift and go to state 239
 
 
-state 213
+state 217
 
     (26) estructuraMap -> LET VARIABLE IGUAL NEW SET . PIZQ CIZQ conjunto CDER PDER PCOMA
 
-    PIZQ            shift and go to state 236
+    PIZQ            shift and go to state 240
 
 
-state 214
+state 218
 
     (88) metodosTupla -> LEN PIZQ VARIABLE PDER PCOMA .
 
@@ -4811,35 +4924,35 @@ state 214
     BREAK           reduce using rule 88 (metodosTupla -> LEN PIZQ VARIABLE PDER PCOMA .)
 
 
-state 215
+state 219
 
     (94) console -> CONSOLE PUNTO LOG PIZQ expresion . PDER PCOMA
 
-    PDER            shift and go to state 237
+    PDER            shift and go to state 241
 
 
-state 216
+state 220
 
     (31) estructuraArreglo -> VAR VARIABLE IGUAL CIZQ conjunto CDER . PCOMA
 
-    PCOMA           shift and go to state 238
+    PCOMA           shift and go to state 242
 
 
-state 217
+state 221
 
     (25) estructuraMap -> VAR VARIABLE IGUAL NEW SET PIZQ . CIZQ conjunto CDER PDER PCOMA
 
-    CIZQ            shift and go to state 239
+    CIZQ            shift and go to state 243
 
 
-state 218
+state 222
 
     (32) metodosArreglos -> VARIABLE PUNTO PUSH PIZQ expresion PDER . PCOMA
 
-    PCOMA           shift and go to state 240
+    PCOMA           shift and go to state 244
 
 
-state 219
+state 223
 
     (33) metodosArreglos -> VARIABLE PUNTO POP PIZQ PDER PCOMA .
 
@@ -4868,7 +4981,7 @@ state 219
     BREAK           reduce using rule 33 (metodosArreglos -> VARIABLE PUNTO POP PIZQ PDER PCOMA .)
 
 
-state 220
+state 224
 
     (34) metodosArreglos -> VARIABLE PUNTO JOIN PIZQ PDER PCOMA .
 
@@ -4897,57 +5010,57 @@ state 220
     BREAK           reduce using rule 34 (metodosArreglos -> VARIABLE PUNTO JOIN PIZQ PDER PCOMA .)
 
 
-state 221
-
-    (27) funcionesMap -> VARIABLE PUNTO ADD PIZQ expresion PDER . PCOMA
-
-    PCOMA           shift and go to state 241
-
-
-state 222
-
-    (28) funcionesMap -> VARIABLE PUNTO HAS PIZQ expresion PDER . PCOMA
-
-    PCOMA           shift and go to state 242
-
-
-state 223
-
-    (29) funcionesMap -> VARIABLE PUNTO FOREACH PIZQ PIZQ VARIABLE . PDER DERECHA LIZQ console LDER PDER PCOMA
-
-    PDER            shift and go to state 243
-
-
-state 224
-
-    (86) metodosTupla -> VARIABLE PUNTO INDEX PIZQ expresion PDER . PCOMA
-
-    PCOMA           shift and go to state 244
-
-
 state 225
 
-    (87) metodosTupla -> VARIABLE PUNTO COUNT PIZQ VARIABLE PDER . PCOMA
+    (27) funcionesMap -> VARIABLE PUNTO ADD PIZQ expresion PDER . PCOMA
 
     PCOMA           shift and go to state 245
 
 
 state 226
 
-    (30) sentenciaWHILE -> WHILE PIZQ comparacion PDER LIZQ codigo . LDER
+    (28) funcionesMap -> VARIABLE PUNTO HAS PIZQ expresion PDER . PCOMA
 
-    LDER            shift and go to state 246
+    PCOMA           shift and go to state 246
 
 
 state 227
 
-    (82) sentenciaIf -> IF PIZQ comparacion PDER LIZQ codigo . LDER
-    (83) sentenciaIf -> IF PIZQ comparacion PDER LIZQ codigo . LDER ELSE LIZQ codigo LDER
+    (29) funcionesMap -> VARIABLE PUNTO FOREACH PIZQ PIZQ VARIABLE . PDER DERECHA LIZQ console LDER PDER PCOMA
 
-    LDER            shift and go to state 247
+    PDER            shift and go to state 247
 
 
 state 228
+
+    (86) metodosTupla -> VARIABLE PUNTO INDEX PIZQ expresion PDER . PCOMA
+
+    PCOMA           shift and go to state 248
+
+
+state 229
+
+    (87) metodosTupla -> VARIABLE PUNTO COUNT PIZQ VARIABLE PDER . PCOMA
+
+    PCOMA           shift and go to state 249
+
+
+state 230
+
+    (30) sentenciaWHILE -> WHILE PIZQ comparacion PDER LIZQ codigo . LDER
+
+    LDER            shift and go to state 250
+
+
+state 231
+
+    (82) sentenciaIf -> IF PIZQ comparacion PDER LIZQ codigo . LDER
+    (83) sentenciaIf -> IF PIZQ comparacion PDER LIZQ codigo . LDER ELSE LIZQ codigo LDER
+
+    LDER            shift and go to state 251
+
+
+state 232
 
     (92) case -> CASE COMILL . expresion COMILL COLON codigo BREAK PCOMA
     (57) expresion -> . valorMatematico
@@ -4967,12 +5080,12 @@ state 228
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    expresion                      shift and go to state 248
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    expresion                      shift and go to state 252
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
-state 229
+state 233
 
     (93) default -> DEFAULT COLON . codigo
     (1) codigo -> . algoritmo
@@ -5053,6 +5166,8 @@ state 229
     (115) reglaSemanticaCondiciones -> . valorGramatico DIFERENTE valorGramatico
     (116) reglaSemanticaCondiciones -> . valorBooleano COMP_IGUAL valorBooleano
     (117) reglaSemanticaCondiciones -> . valorBooleano DIFERENTE valorBooleano
+    (118) reglaSemanticaCondiciones -> . valorBooleano AND valorBooleano
+    (119) reglaSemanticaCondiciones -> . valorBooleano OR valorBooleano
     (76) valorMatematico -> . ENTERO
     (77) valorMatematico -> . DECIMAL
     (78) valorGramatico -> . VARIABLE
@@ -5081,7 +5196,7 @@ state 229
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    codigo                         shift and go to state 249
+    codigo                         shift and go to state 253
     algoritmo                      shift and go to state 2
     asignacion                     shift and go to state 3
     sentenciaWHILE                 shift and go to state 4
@@ -5113,37 +5228,37 @@ state 229
     valorGramatico                 shift and go to state 47
     valorBooleano                  shift and go to state 48
 
-state 230
+state 234
 
     (95) sentenciaFor -> FOR PIZQ condicionFor PDER LIZQ codigo . LDER
 
-    LDER            shift and go to state 250
+    LDER            shift and go to state 254
 
 
-state 231
+state 235
 
     (96) condicionFor -> asignacion PCOMA comparacion PCOMA . VARIABLE DEC
 
-    VARIABLE        shift and go to state 251
+    VARIABLE        shift and go to state 255
 
 
-state 232
+state 236
 
     (101) crearObjeto -> CONST VARIABLE IGUAL NEW OBJECT PIZQ . PDER PCOMA
 
-    PDER            shift and go to state 252
+    PDER            shift and go to state 256
 
 
-state 233
+state 237
 
     (102) crearFunction -> FUNCTION VARIABLE PIZQ conjunto PDER LIZQ . cuerpoFunction LDER
     (103) cuerpoFunction -> . THIS PUNTO VARIABLE IGUAL VARIABLE PCOMA
 
-    THIS            shift and go to state 254
+    THIS            shift and go to state 258
 
-    cuerpoFunction                 shift and go to state 253
+    cuerpoFunction                 shift and go to state 257
 
-state 234
+state 238
 
     (36) conjunto -> expresion COMA conjunto .
 
@@ -5151,7 +5266,7 @@ state 234
     CDER            reduce using rule 36 (conjunto -> expresion COMA conjunto .)
 
 
-state 235
+state 239
 
     (24) sentenciaDo -> DO LIZQ codigo LDER WHILE PIZQ . comparacion PDER PCOMA
     (60) comparacion -> . expresion operadorComp expresion
@@ -5172,27 +5287,27 @@ state 235
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    comparacion                    shift and go to state 255
-    expresion                      shift and go to state 128
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    comparacion                    shift and go to state 259
+    expresion                      shift and go to state 130
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
-state 236
+state 240
 
     (26) estructuraMap -> LET VARIABLE IGUAL NEW SET PIZQ . CIZQ conjunto CDER PDER PCOMA
 
-    CIZQ            shift and go to state 256
+    CIZQ            shift and go to state 260
 
 
-state 237
+state 241
 
     (94) console -> CONSOLE PUNTO LOG PIZQ expresion PDER . PCOMA
 
-    PCOMA           shift and go to state 257
+    PCOMA           shift and go to state 261
 
 
-state 238
+state 242
 
     (31) estructuraArreglo -> VAR VARIABLE IGUAL CIZQ conjunto CDER PCOMA .
 
@@ -5221,7 +5336,7 @@ state 238
     BREAK           reduce using rule 31 (estructuraArreglo -> VAR VARIABLE IGUAL CIZQ conjunto CDER PCOMA .)
 
 
-state 239
+state 243
 
     (25) estructuraMap -> VAR VARIABLE IGUAL NEW SET PIZQ CIZQ . conjunto CDER PDER PCOMA
     (35) conjunto -> . expresion
@@ -5243,13 +5358,13 @@ state 239
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    conjunto                       shift and go to state 258
-    expresion                      shift and go to state 183
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    conjunto                       shift and go to state 262
+    expresion                      shift and go to state 187
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
-state 240
+state 244
 
     (32) metodosArreglos -> VARIABLE PUNTO PUSH PIZQ expresion PDER PCOMA .
 
@@ -5278,7 +5393,7 @@ state 240
     BREAK           reduce using rule 32 (metodosArreglos -> VARIABLE PUNTO PUSH PIZQ expresion PDER PCOMA .)
 
 
-state 241
+state 245
 
     (27) funcionesMap -> VARIABLE PUNTO ADD PIZQ expresion PDER PCOMA .
 
@@ -5307,7 +5422,7 @@ state 241
     BREAK           reduce using rule 27 (funcionesMap -> VARIABLE PUNTO ADD PIZQ expresion PDER PCOMA .)
 
 
-state 242
+state 246
 
     (28) funcionesMap -> VARIABLE PUNTO HAS PIZQ expresion PDER PCOMA .
 
@@ -5336,14 +5451,14 @@ state 242
     BREAK           reduce using rule 28 (funcionesMap -> VARIABLE PUNTO HAS PIZQ expresion PDER PCOMA .)
 
 
-state 243
+state 247
 
     (29) funcionesMap -> VARIABLE PUNTO FOREACH PIZQ PIZQ VARIABLE PDER . DERECHA LIZQ console LDER PDER PCOMA
 
-    DERECHA         shift and go to state 259
+    DERECHA         shift and go to state 263
 
 
-state 244
+state 248
 
     (86) metodosTupla -> VARIABLE PUNTO INDEX PIZQ expresion PDER PCOMA .
 
@@ -5372,7 +5487,7 @@ state 244
     BREAK           reduce using rule 86 (metodosTupla -> VARIABLE PUNTO INDEX PIZQ expresion PDER PCOMA .)
 
 
-state 245
+state 249
 
     (87) metodosTupla -> VARIABLE PUNTO COUNT PIZQ VARIABLE PDER PCOMA .
 
@@ -5401,7 +5516,7 @@ state 245
     BREAK           reduce using rule 87 (metodosTupla -> VARIABLE PUNTO COUNT PIZQ VARIABLE PDER PCOMA .)
 
 
-state 246
+state 250
 
     (30) sentenciaWHILE -> WHILE PIZQ comparacion PDER LIZQ codigo LDER .
 
@@ -5430,7 +5545,7 @@ state 246
     BREAK           reduce using rule 30 (sentenciaWHILE -> WHILE PIZQ comparacion PDER LIZQ codigo LDER .)
 
 
-state 247
+state 251
 
     (82) sentenciaIf -> IF PIZQ comparacion PDER LIZQ codigo LDER .
     (83) sentenciaIf -> IF PIZQ comparacion PDER LIZQ codigo LDER . ELSE LIZQ codigo LDER
@@ -5458,17 +5573,17 @@ state 247
     $end            reduce using rule 82 (sentenciaIf -> IF PIZQ comparacion PDER LIZQ codigo LDER .)
     LDER            reduce using rule 82 (sentenciaIf -> IF PIZQ comparacion PDER LIZQ codigo LDER .)
     BREAK           reduce using rule 82 (sentenciaIf -> IF PIZQ comparacion PDER LIZQ codigo LDER .)
-    ELSE            shift and go to state 260
+    ELSE            shift and go to state 264
 
 
-state 248
+state 252
 
     (92) case -> CASE COMILL expresion . COMILL COLON codigo BREAK PCOMA
 
-    COMILL          shift and go to state 261
+    COMILL          shift and go to state 265
 
 
-state 249
+state 253
 
     (93) default -> DEFAULT COLON codigo .
 
@@ -5497,7 +5612,7 @@ state 249
     BREAK           reduce using rule 93 (default -> DEFAULT COLON codigo .)
 
 
-state 250
+state 254
 
     (95) sentenciaFor -> FOR PIZQ condicionFor PDER LIZQ codigo LDER .
 
@@ -5526,42 +5641,42 @@ state 250
     BREAK           reduce using rule 95 (sentenciaFor -> FOR PIZQ condicionFor PDER LIZQ codigo LDER .)
 
 
-state 251
+state 255
 
     (96) condicionFor -> asignacion PCOMA comparacion PCOMA VARIABLE . DEC
 
-    DEC             shift and go to state 262
-
-
-state 252
-
-    (101) crearObjeto -> CONST VARIABLE IGUAL NEW OBJECT PIZQ PDER . PCOMA
-
-    PCOMA           shift and go to state 263
-
-
-state 253
-
-    (102) crearFunction -> FUNCTION VARIABLE PIZQ conjunto PDER LIZQ cuerpoFunction . LDER
-
-    LDER            shift and go to state 264
-
-
-state 254
-
-    (103) cuerpoFunction -> THIS . PUNTO VARIABLE IGUAL VARIABLE PCOMA
-
-    PUNTO           shift and go to state 265
-
-
-state 255
-
-    (24) sentenciaDo -> DO LIZQ codigo LDER WHILE PIZQ comparacion . PDER PCOMA
-
-    PDER            shift and go to state 266
+    DEC             shift and go to state 266
 
 
 state 256
+
+    (101) crearObjeto -> CONST VARIABLE IGUAL NEW OBJECT PIZQ PDER . PCOMA
+
+    PCOMA           shift and go to state 267
+
+
+state 257
+
+    (102) crearFunction -> FUNCTION VARIABLE PIZQ conjunto PDER LIZQ cuerpoFunction . LDER
+
+    LDER            shift and go to state 268
+
+
+state 258
+
+    (103) cuerpoFunction -> THIS . PUNTO VARIABLE IGUAL VARIABLE PCOMA
+
+    PUNTO           shift and go to state 269
+
+
+state 259
+
+    (24) sentenciaDo -> DO LIZQ codigo LDER WHILE PIZQ comparacion . PDER PCOMA
+
+    PDER            shift and go to state 270
+
+
+state 260
 
     (26) estructuraMap -> LET VARIABLE IGUAL NEW SET PIZQ CIZQ . conjunto CDER PDER PCOMA
     (35) conjunto -> . expresion
@@ -5583,13 +5698,13 @@ state 256
     TRUE            shift and go to state 50
     FALSE           shift and go to state 51
 
-    conjunto                       shift and go to state 267
-    expresion                      shift and go to state 183
-    valorMatematico                shift and go to state 122
-    valorGramatico                 shift and go to state 123
-    valorBooleano                  shift and go to state 124
+    conjunto                       shift and go to state 271
+    expresion                      shift and go to state 187
+    valorMatematico                shift and go to state 124
+    valorGramatico                 shift and go to state 125
+    valorBooleano                  shift and go to state 126
 
-state 257
+state 261
 
     (94) console -> CONSOLE PUNTO LOG PIZQ expresion PDER PCOMA .
 
@@ -5618,42 +5733,42 @@ state 257
     BREAK           reduce using rule 94 (console -> CONSOLE PUNTO LOG PIZQ expresion PDER PCOMA .)
 
 
-state 258
+state 262
 
     (25) estructuraMap -> VAR VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto . CDER PDER PCOMA
 
-    CDER            shift and go to state 268
+    CDER            shift and go to state 272
 
 
-state 259
+state 263
 
     (29) funcionesMap -> VARIABLE PUNTO FOREACH PIZQ PIZQ VARIABLE PDER DERECHA . LIZQ console LDER PDER PCOMA
 
-    LIZQ            shift and go to state 269
+    LIZQ            shift and go to state 273
 
 
-state 260
+state 264
 
     (83) sentenciaIf -> IF PIZQ comparacion PDER LIZQ codigo LDER ELSE . LIZQ codigo LDER
 
-    LIZQ            shift and go to state 270
+    LIZQ            shift and go to state 274
 
 
-state 261
+state 265
 
     (92) case -> CASE COMILL expresion COMILL . COLON codigo BREAK PCOMA
 
-    COLON           shift and go to state 271
+    COLON           shift and go to state 275
 
 
-state 262
+state 266
 
     (96) condicionFor -> asignacion PCOMA comparacion PCOMA VARIABLE DEC .
 
     PDER            reduce using rule 96 (condicionFor -> asignacion PCOMA comparacion PCOMA VARIABLE DEC .)
 
 
-state 263
+state 267
 
     (101) crearObjeto -> CONST VARIABLE IGUAL NEW OBJECT PIZQ PDER PCOMA .
 
@@ -5682,7 +5797,7 @@ state 263
     BREAK           reduce using rule 101 (crearObjeto -> CONST VARIABLE IGUAL NEW OBJECT PIZQ PDER PCOMA .)
 
 
-state 264
+state 268
 
     (102) crearFunction -> FUNCTION VARIABLE PIZQ conjunto PDER LIZQ cuerpoFunction LDER .
 
@@ -5711,44 +5826,44 @@ state 264
     BREAK           reduce using rule 102 (crearFunction -> FUNCTION VARIABLE PIZQ conjunto PDER LIZQ cuerpoFunction LDER .)
 
 
-state 265
+state 269
 
     (103) cuerpoFunction -> THIS PUNTO . VARIABLE IGUAL VARIABLE PCOMA
 
-    VARIABLE        shift and go to state 272
+    VARIABLE        shift and go to state 276
 
 
-state 266
+state 270
 
     (24) sentenciaDo -> DO LIZQ codigo LDER WHILE PIZQ comparacion PDER . PCOMA
 
-    PCOMA           shift and go to state 273
+    PCOMA           shift and go to state 277
 
 
-state 267
+state 271
 
     (26) estructuraMap -> LET VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto . CDER PDER PCOMA
 
-    CDER            shift and go to state 274
+    CDER            shift and go to state 278
 
 
-state 268
+state 272
 
     (25) estructuraMap -> VAR VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER . PDER PCOMA
 
-    PDER            shift and go to state 275
+    PDER            shift and go to state 279
 
 
-state 269
+state 273
 
     (29) funcionesMap -> VARIABLE PUNTO FOREACH PIZQ PIZQ VARIABLE PDER DERECHA LIZQ . console LDER PDER PCOMA
     (94) console -> . CONSOLE PUNTO LOG PIZQ expresion PDER PCOMA
 
     CONSOLE         shift and go to state 44
 
-    console                        shift and go to state 276
+    console                        shift and go to state 280
 
-state 270
+state 274
 
     (83) sentenciaIf -> IF PIZQ comparacion PDER LIZQ codigo LDER ELSE LIZQ . codigo LDER
     (1) codigo -> . algoritmo
@@ -5829,6 +5944,8 @@ state 270
     (115) reglaSemanticaCondiciones -> . valorGramatico DIFERENTE valorGramatico
     (116) reglaSemanticaCondiciones -> . valorBooleano COMP_IGUAL valorBooleano
     (117) reglaSemanticaCondiciones -> . valorBooleano DIFERENTE valorBooleano
+    (118) reglaSemanticaCondiciones -> . valorBooleano AND valorBooleano
+    (119) reglaSemanticaCondiciones -> . valorBooleano OR valorBooleano
     (76) valorMatematico -> . ENTERO
     (77) valorMatematico -> . DECIMAL
     (78) valorGramatico -> . VARIABLE
@@ -5858,7 +5975,7 @@ state 270
     FALSE           shift and go to state 51
 
     comparacion                    shift and go to state 29
-    codigo                         shift and go to state 277
+    codigo                         shift and go to state 281
     algoritmo                      shift and go to state 2
     asignacion                     shift and go to state 3
     sentenciaWHILE                 shift and go to state 4
@@ -5889,7 +6006,7 @@ state 270
     valorGramatico                 shift and go to state 47
     valorBooleano                  shift and go to state 48
 
-state 271
+state 275
 
     (92) case -> CASE COMILL expresion COMILL COLON . codigo BREAK PCOMA
     (1) codigo -> . algoritmo
@@ -5970,6 +6087,8 @@ state 271
     (115) reglaSemanticaCondiciones -> . valorGramatico DIFERENTE valorGramatico
     (116) reglaSemanticaCondiciones -> . valorBooleano COMP_IGUAL valorBooleano
     (117) reglaSemanticaCondiciones -> . valorBooleano DIFERENTE valorBooleano
+    (118) reglaSemanticaCondiciones -> . valorBooleano AND valorBooleano
+    (119) reglaSemanticaCondiciones -> . valorBooleano OR valorBooleano
     (76) valorMatematico -> . ENTERO
     (77) valorMatematico -> . DECIMAL
     (78) valorGramatico -> . VARIABLE
@@ -5999,7 +6118,7 @@ state 271
     FALSE           shift and go to state 51
 
     expresion                      shift and go to state 26
-    codigo                         shift and go to state 278
+    codigo                         shift and go to state 282
     algoritmo                      shift and go to state 2
     asignacion                     shift and go to state 3
     sentenciaWHILE                 shift and go to state 4
@@ -6030,14 +6149,14 @@ state 271
     valorGramatico                 shift and go to state 47
     valorBooleano                  shift and go to state 48
 
-state 272
+state 276
 
     (103) cuerpoFunction -> THIS PUNTO VARIABLE . IGUAL VARIABLE PCOMA
 
-    IGUAL           shift and go to state 279
+    IGUAL           shift and go to state 283
 
 
-state 273
+state 277
 
     (24) sentenciaDo -> DO LIZQ codigo LDER WHILE PIZQ comparacion PDER PCOMA .
 
@@ -6066,56 +6185,56 @@ state 273
     BREAK           reduce using rule 24 (sentenciaDo -> DO LIZQ codigo LDER WHILE PIZQ comparacion PDER PCOMA .)
 
 
-state 274
+state 278
 
     (26) estructuraMap -> LET VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER . PDER PCOMA
 
-    PDER            shift and go to state 280
-
-
-state 275
-
-    (25) estructuraMap -> VAR VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER . PCOMA
-
-    PCOMA           shift and go to state 281
-
-
-state 276
-
-    (29) funcionesMap -> VARIABLE PUNTO FOREACH PIZQ PIZQ VARIABLE PDER DERECHA LIZQ console . LDER PDER PCOMA
-
-    LDER            shift and go to state 282
-
-
-state 277
-
-    (83) sentenciaIf -> IF PIZQ comparacion PDER LIZQ codigo LDER ELSE LIZQ codigo . LDER
-
-    LDER            shift and go to state 283
-
-
-state 278
-
-    (92) case -> CASE COMILL expresion COMILL COLON codigo . BREAK PCOMA
-
-    BREAK           shift and go to state 284
+    PDER            shift and go to state 284
 
 
 state 279
 
-    (103) cuerpoFunction -> THIS PUNTO VARIABLE IGUAL . VARIABLE PCOMA
+    (25) estructuraMap -> VAR VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER . PCOMA
 
-    VARIABLE        shift and go to state 285
+    PCOMA           shift and go to state 285
 
 
 state 280
 
-    (26) estructuraMap -> LET VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER . PCOMA
+    (29) funcionesMap -> VARIABLE PUNTO FOREACH PIZQ PIZQ VARIABLE PDER DERECHA LIZQ console . LDER PDER PCOMA
 
-    PCOMA           shift and go to state 286
+    LDER            shift and go to state 286
 
 
 state 281
+
+    (83) sentenciaIf -> IF PIZQ comparacion PDER LIZQ codigo LDER ELSE LIZQ codigo . LDER
+
+    LDER            shift and go to state 287
+
+
+state 282
+
+    (92) case -> CASE COMILL expresion COMILL COLON codigo . BREAK PCOMA
+
+    BREAK           shift and go to state 288
+
+
+state 283
+
+    (103) cuerpoFunction -> THIS PUNTO VARIABLE IGUAL . VARIABLE PCOMA
+
+    VARIABLE        shift and go to state 289
+
+
+state 284
+
+    (26) estructuraMap -> LET VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER . PCOMA
+
+    PCOMA           shift and go to state 290
+
+
+state 285
 
     (25) estructuraMap -> VAR VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA .
 
@@ -6144,14 +6263,14 @@ state 281
     BREAK           reduce using rule 25 (estructuraMap -> VAR VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA .)
 
 
-state 282
+state 286
 
     (29) funcionesMap -> VARIABLE PUNTO FOREACH PIZQ PIZQ VARIABLE PDER DERECHA LIZQ console LDER . PDER PCOMA
 
-    PDER            shift and go to state 287
+    PDER            shift and go to state 291
 
 
-state 283
+state 287
 
     (83) sentenciaIf -> IF PIZQ comparacion PDER LIZQ codigo LDER ELSE LIZQ codigo LDER .
 
@@ -6180,21 +6299,21 @@ state 283
     BREAK           reduce using rule 83 (sentenciaIf -> IF PIZQ comparacion PDER LIZQ codigo LDER ELSE LIZQ codigo LDER .)
 
 
-state 284
+state 288
 
     (92) case -> CASE COMILL expresion COMILL COLON codigo BREAK . PCOMA
 
-    PCOMA           shift and go to state 288
+    PCOMA           shift and go to state 292
 
 
-state 285
+state 289
 
     (103) cuerpoFunction -> THIS PUNTO VARIABLE IGUAL VARIABLE . PCOMA
 
-    PCOMA           shift and go to state 289
+    PCOMA           shift and go to state 293
 
 
-state 286
+state 290
 
     (26) estructuraMap -> LET VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA .
 
@@ -6223,14 +6342,14 @@ state 286
     BREAK           reduce using rule 26 (estructuraMap -> LET VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA .)
 
 
-state 287
+state 291
 
     (29) funcionesMap -> VARIABLE PUNTO FOREACH PIZQ PIZQ VARIABLE PDER DERECHA LIZQ console LDER PDER . PCOMA
 
-    PCOMA           shift and go to state 290
+    PCOMA           shift and go to state 294
 
 
-state 288
+state 292
 
     (92) case -> CASE COMILL expresion COMILL COLON codigo BREAK PCOMA .
 
@@ -6259,14 +6378,14 @@ state 288
     BREAK           reduce using rule 92 (case -> CASE COMILL expresion COMILL COLON codigo BREAK PCOMA .)
 
 
-state 289
+state 293
 
     (103) cuerpoFunction -> THIS PUNTO VARIABLE IGUAL VARIABLE PCOMA .
 
     LDER            reduce using rule 103 (cuerpoFunction -> THIS PUNTO VARIABLE IGUAL VARIABLE PCOMA .)
 
 
-state 290
+state 294
 
     (29) funcionesMap -> VARIABLE PUNTO FOREACH PIZQ PIZQ VARIABLE PDER DERECHA LIZQ console LDER PDER PCOMA .
 
@@ -6327,3 +6446,5 @@ WARNING: shift/reduce conflict for COMP_IGUAL in state 47 resolved as shift
 WARNING: shift/reduce conflict for DIFERENTE in state 47 resolved as shift
 WARNING: shift/reduce conflict for COMP_IGUAL in state 48 resolved as shift
 WARNING: shift/reduce conflict for DIFERENTE in state 48 resolved as shift
+WARNING: shift/reduce conflict for AND in state 48 resolved as shift
+WARNING: shift/reduce conflict for OR in state 48 resolved as shift
