@@ -287,7 +287,9 @@ def p_reglaSemanticaCondiciones(t):
                                 | valorGramatico COMP_IGUAL valorGramatico
                                 | valorGramatico DIFERENTE valorGramatico
                                 | valorBooleano COMP_IGUAL valorBooleano
-                                | valorBooleano DIFERENTE valorBooleano'''
+                                | valorBooleano DIFERENTE valorBooleano
+                                | valorBooleano AND valorBooleano
+                                | valorBooleano OR valorBooleano'''
 
     if t[2] == '===':
         t[0] = t[1] == t[3]
@@ -305,7 +307,21 @@ def p_reglaSemanticaCondiciones(t):
         t[0] = t[1] == t[3]
     elif t[2] == '!==':
         t[0] = t[1] != t[3]
+    elif t[2] == '&&':
+        t[0] = t[1] and t[3]
+    elif t[0] == '||':
+        t[0] = t[1] or t[3]
 
+
+# Error rule for syntax errors
+
+def p_reglaSemanticEstructuras(t):
+    '''reglaSemanticaEstructuras : valorBooleano COMA valorMatematico COMA valorGramatico
+                                | valorBooleano COMA valorBooleano COMA valorBooleano
+                                | valorMatematico COMA valorMatematico COMA valorMatematico
+                                | valorGramatico COMA valorGramatico COMA valorGramatico
+
+    '''
 
 
 # Error rule for syntax errors
