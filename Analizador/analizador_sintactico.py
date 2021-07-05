@@ -72,6 +72,7 @@ def p_algoritmo(t):
                     | metodosTupla
                     | expresion_aritmetica
                     | console
+                    | condiciones
     '''
     t[0] = t[1]
 
@@ -129,6 +130,9 @@ def p_tipoasignacion(p):
                     | ASIG_OR
                     | ASIG_ANU
     '''
+def p_condiciones(t):
+    '''condiciones : reglaSemanticaCondiciones
+                    | PIZQ reglaSemanticaCondiciones PDER'''
 
 def p_expresion_aritmetica(t):
     '''expresion_aritmetica : reglaSemanticaOperaciones
@@ -287,12 +291,22 @@ def p_reglaSemanticaCondiciones(t):
 
     if t[2] == '===':
         t[0] = t[1] == t[3]
-    elif t[2] == '!==':
-        t[0] = t[1] != t[3]
     elif t[2] == '<':
         t[0] = t[1] < t[3]
     elif t[2] == '>':
         t[0] = t[1] > t[3]
+    elif t[2] == '!==':
+        t[0] = t[1] != t[3]
+    elif t[2] == '===':
+        t[0] = t[1] == t[3]
+    elif t[2] == '!==':
+        t[0] = t[1] != t[3]
+    elif t[2] == '===':
+        t[0] = t[1] == t[3]
+    elif t[2] == '!==':
+        t[0] = t[1] != t[3]
+
+
 
 # Error rule for syntax errors
 
