@@ -69,7 +69,6 @@ tokens = [
     "COMA",
     "PCOMA",
     "MOD",
-    "NOT",
     "COLON",
     "DEC",
     "ASIG_SUMA",
@@ -119,7 +118,6 @@ t_IGUAL = r'\='
 t_COLON = r'\:'
 t_DEC = r'--'
 t_COMILL = r'\"'
-t_COMENTARIO_EN_LINEA = r'//.*'
 t_DERECHA = r'\=>'
 
 
@@ -157,16 +155,16 @@ def t_ENTERO(t):
         t.value = 0
     return t
 
+def t_COMENTARIO_EN_LINEA(t):
+      r'\/\/(.)*'
+      t.lexer.lineno += 1
+      print("Comentario de una linea")
 
 def t_COMENTARIO_MULTILINEA(t):
-    r"/\*(.|\n)*?\*/"
+    r"/\*(.)*?\*/"
     t.lexer.lineno += t.value.count('\n')
-    return t
+    print("Comentario de multiple linea")
 
-def t_NOT(t):
-    r'(![a-zA-Z]\w*)'
-    t.type = reserved.get(t.value, 'NOT')
-    return t
 
 
 def t_VARIABLE(t):
@@ -178,7 +176,8 @@ def t_newline(t):
     r"\n+"
     t.lexer.lineno += len(t.value)
 
-t_ignore = ' \t'
+
+t_ignore =' \t'
 
 
 def t_error( t):

@@ -74,7 +74,7 @@ def p_algoritmo(t):
     t[0] = t[1]
 
 def p_sentenciaDO(p):
-    '''sentenciaDo : DO LIZQ codigo LDER WHILE PIZQ comparacion PDER PCOMA
+    '''sentenciaDo : DO LIZQ codigo LDER WHILE PIZQ comparacionWhile PDER PCOMA
     '''
 
 def p_estructuraMap(p):
@@ -89,17 +89,26 @@ def p_funcionesMap(p):
     '''
 
 def p_sentenciaWhile(p):
-    '''sentenciaWHILE : WHILE PIZQ comparacion PDER LIZQ codigo LDER
+    '''sentenciaWHILE : WHILE PIZQ comparacionWhile PDER LIZQ codigo LDER
     '''
+
 
 def p_estructuraArreglo(p):
     ''' estructuraArreglo : VAR VARIABLE IGUAL CIZQ conjunto CDER PCOMA
+                            | LET VARIABLE IGUAL CIZQ conjunto CDER PCOMA
+                            | CONST VARIABLE IGUAL CIZQ conjunto CDER PCOMA
+    '''
+
+def p_comentarios(p):
+    ''' comentarios : COMENTARIO_EN_LINEA
+                    | COMENTARIO_MULTILINEA
     '''
 
 def p_metodosArreglos(p):
     ''' metodosArreglos : VARIABLE PUNTO PUSH PIZQ expresion PDER PCOMA
                         | VARIABLE PUNTO POP PIZQ  PDER PCOMA
                         | VARIABLE PUNTO JOIN PIZQ  PDER PCOMA
+
     '''
 
 def p_conjunto(p):
@@ -108,7 +117,10 @@ def p_conjunto(p):
     '''
 
 def p_asignacion(p):
-    'asignacion : VAR VARIABLE tipoasignacion expresion PCOMA'
+    '''asignacion : VAR VARIABLE tipoasignacion expresion PCOMA
+                | LET VARIABLE tipoasignacion expresion PCOMA
+    '''
+
 
 def p_tipoasignacion(p):
     '''tipoasignacion : IGUAL
@@ -140,6 +152,11 @@ def p_expresion(t):
                 | valorBooleano
     '''
 
+def p_comparacionWhile(p):
+    '''comparacionWhile : VARIABLE operadorComp valorMatematico
+                        | valorBooleano
+                        | valorMatematico operadorComp valorMatematico
+    '''
 
 def p_comparacion(p):
     '''comparacion : expresion operadorComp expresion
@@ -158,14 +175,6 @@ def p_sentenciaOr(p):
     ''' sentenciaOR : expresion OR expresion PCOMA
     '''
 
-def p_operadorMat(p):
-    '''operadorMat : MAS
-                | RESTA
-                | PROD
-                | DIVISION
-                | POTENCIA
-                | MOD
-    '''
 def p_operadorComp(p):
     '''operadorComp : MAYOR
                 | MENOR
@@ -197,10 +206,7 @@ def p_sentenciaIf(p):
                         | IF PIZQ comparacion PDER LIZQ codigo LDER ELSE LIZQ codigo LDER
     '''
 
-def p_comentarios(p):
-    ''' comentarios : COMENTARIO_EN_LINEA
-                    | COMENTARIO_MULTILINEA
-    '''
+
 
 def p_metodosTupla(p):
     ''' metodosTupla : VARIABLE PUNTO INDEX PIZQ expresion PDER PCOMA
@@ -222,7 +228,8 @@ def p_default(p):
     ''' default : DEFAULT COLON codigo '''
 
 def p_console(p):
-    ''' console : CONSOLE PUNTO LOG PIZQ  PDER PCOMA'''
+    ''' console : CONSOLE PUNTO LOG PIZQ  PDER PCOMA
+    '''
 
 def p_sentenciaFor(p):
     '''sentenciaFor : FOR PIZQ condicionFor PDER LIZQ codigo LDER
@@ -238,7 +245,8 @@ def p_crearVariables(p):
 
 def p_instruccion(p):
     ''' instruccionVL : VAR
-                    | LET '''
+                    | LET
+    '''
 
 def p_crearObjeto(p):
     ''' crearObjeto : CONST VARIABLE IGUAL NEW OBJECT PIZQ PDER PCOMA '''
@@ -274,6 +282,7 @@ def p_reglaSemanticaOperaciones(t):
             i -= 1
 
 
+
 # Error rule for syntax errors
 
 def p_error(t):
@@ -282,7 +291,7 @@ def p_error(t):
         resultado = "Error sintactico de tipo {} en el valor {}".format( str(t.type),str(t.value))
         print(resultado)
     else:
-        resultado = "Todo correcto : {}".format(t)
+        resultado = "Error sintactico {}".format(t)
         print(resultado)
     resultado_gramatica.append(resultado)
 

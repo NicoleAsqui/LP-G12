@@ -1,4 +1,7 @@
-//Inicio del Algoritmo Nicole
+/* Funciones JavaScript
+   Curso: Tutorial básico
+*/
+
 var numero_1 = 3 ;
 var numero_2 = "sdfsdfsd" ;
 var numero_2 = false ;
