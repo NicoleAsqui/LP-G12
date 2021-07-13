@@ -31,7 +31,7 @@ reserved = {
     "log": "LOG",
     "true":"TRUE",
     "false":"FALSE",
-    "set":"SET",
+    "Set":"SET",
     "add":"ADD",
     "has":"HAS",
     "index": "INDEX",
@@ -69,7 +69,6 @@ tokens = [
     "COMA",
     "PCOMA",
     "MOD",
-    "NOT",
     "COLON",
     "DEC",
     "ASIG_SUMA",
@@ -96,9 +95,9 @@ tokens = [
 t_PUNTO = r"\."
 t_AND = r"&&"
 t_OR = r"\|\|"
-t_COMP_IGUAL = r"==="
-t_DIFERENTE = r"!=="
-t_CIZQ = r" \["
+t_COMP_IGUAL = r"=="
+t_DIFERENTE = r"!="
+t_CIZQ = r"\["
 t_CDER = r"\]"
 t_LIZQ = r"\{"
 t_LDER = r"\}"
@@ -119,7 +118,6 @@ t_IGUAL = r'\='
 t_COLON = r'\:'
 t_DEC = r'--'
 t_COMILL = r'\"'
-t_COMENTARIO_EN_LINEA = r'//[a-zA-Z0-9]+'
 t_DERECHA = r'\=>'
 
 
@@ -157,16 +155,16 @@ def t_ENTERO(t):
         t.value = 0
     return t
 
+def t_COMENTARIO_EN_LINEA(t):
+      r'\/\/(.)*'
+      t.lexer.lineno += 1
+      print("Comentario de una linea")
 
 def t_COMENTARIO_MULTILINEA(t):
-    r"/\*(.|\n)*?\*/"
+    r"/\*(.)*?\*/"
     t.lexer.lineno += t.value.count('\n')
-    return t
+    print("Comentario de multiple linea")
 
-def t_NOT(t):
-    r'(![a-zA-Z]\w*)'
-    t.type = reserved.get(t.value, 'NOT')
-    return t
 
 
 def t_VARIABLE(t):
@@ -178,7 +176,8 @@ def t_newline(t):
     r"\n+"
     t.lexer.lineno += len(t.value)
 
-t_ignore = ' \t'
+
+t_ignore =' \t'
 
 
 def t_error( t):
@@ -248,4 +247,4 @@ def leer(file):
 
 archivo = open("../archivos/AlgoritmoAsqui.txt")
 
-leer(archivo) """
+leer(archivo) """ 
