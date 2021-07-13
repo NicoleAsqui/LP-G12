@@ -247,4 +247,4 @@ def leer(file):
 
 archivo = open("../archivos/AlgoritmoAsqui.txt")
 
-leer(archivo) """
+leer(archivo) """ 
