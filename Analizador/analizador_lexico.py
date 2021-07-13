@@ -210,6 +210,7 @@ def analizar(data):
         resultado_lexema.append(estado)
     return resultado_lexema
 
+
 if __name__ == '__main__':
     while True:
         data = input("ingrese: ")
