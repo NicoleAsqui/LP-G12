@@ -232,32 +232,54 @@ def p_metodosTupla(p):
     '''
 
 def p_declarationSwitch(p):
-    ''' switch : SWITCH PIZQ expresion PDER cuerpoSwitch'''
+    ''' switch : SWITCH PIZQ VARIABLE PDER cuerpoSwitch'''
 
 def p_cuerpoSwitch(p):
-    ''' cuerpoSwitch : case
-                    | default'''
+    ''' cuerpoSwitch : LIZQ caseSwitch LDER
+                    | LIZQ caseSwitch LDER cuerpoSwitch'''
 
 def p_case(p):
-    ''' case : CASE COMILL expresion COMILL COLON codigo BREAK PCOMA'''
+    ''' caseSwitch : CASE ENTERO COLON cuerpoCase'''
+
+def p_cuerpoCase(p):
+    '''cuerpoCase : codigo PCOMA BREAK PCOMA
+                    | codigo PCOMA BREAK PCOMA defaultSwitch'''
 
 def p_default(p):
-    ''' default : DEFAULT COLON codigo '''
+    ''' defaultSwitch : DEFAULT COLON codigo PCOMA '''
 
 def p_console(p):
-    ''' console : CONSOLE PUNTO LOG PIZQ  PDER PCOMA'''
+    ''' console : CONSOLE PUNTO LOG PIZQ cuerpoConsole PDER PCOMA'''
+
+def p_cuerpoConsole(p):
+    '''cuerpoConsole : algoritmo'''
 
 def p_sentenciaFor(p):
-    '''sentenciaFor : FOR PIZQ condicionFor PDER LIZQ codigo LDER
+    '''sentenciaFor : FOR PIZQ condicionFor PDER cuerpoFor
     '''
 
+def p_cuerpoFor(p):
+    '''cuerpoFor : LIZQ asignacionFor LDER
+                    | LIZQ console LDER'''
+
 def p_condicionFOR(p):
-    '''condicionFor : asignacion PCOMA comparacion PCOMA VARIABLE DEC '''
+    '''condicionFor : asignacionFor comparacionFor incdecFor'''
+
+def p_asignacionFor(p):
+    '''asignacionFor : VARIABLE IGUAL ENTERO PCOMA'''
+
+def p_comparacionFor(p):
+    '''comparacionFor : VARIABLE MENOR ENTERO PCOMA
+                        | VARIABLE MAYOR ENTERO PCOMA'''
+
+def p_incdecFor(p):
+    '''incdecFor : VARIABLE DEC
+                   | VARIABLE INC'''
 
 
 def p_crearVariables(p):
     ''' crearVariable : instruccionVL VARIABLE IGUAL ENTERO
-                                            | CADENA'''
+                                            | CADENA '''
 
 def p_instruccion(p):
     ''' instruccionVL : VAR
@@ -267,10 +289,13 @@ def p_crearObjeto(p):
     ''' crearObjeto : CONST VARIABLE IGUAL NEW OBJECT PIZQ PDER PCOMA '''
 
 def p_crearFunction(p):
-    ''' crearFunction : FUNCTION VARIABLE PIZQ conjunto PDER LIZQ cuerpoFunction LDER'''
+    ''' crearFunction : FUNCTION VARIABLE PIZQ conjunto PDER LIZQ cuerpoFunction LDER
+                        | FUNCTION VARIABLE PIZQ PDER LIZQ cuerpoFunction LDER'''
 
 def p_cuerpoFunction(p):
-    ''' cuerpoFunction : THIS PUNTO VARIABLE IGUAL VARIABLE PCOMA'''
+    ''' cuerpoFunction : THIS PUNTO VARIABLE IGUAL VARIABLE PCOMA
+                        | codigo PCOMA
+                        '''
 
 def p_reglaSemanticaOperaciones(t):
     '''reglaSemanticaOperaciones : valorMatematico MAS valorMatematico
@@ -306,7 +331,9 @@ def p_reglaSemanticaCondiciones(t):
                                 | valorBooleano COMP_IGUAL valorBooleano
                                 | valorBooleano DIFERENTE valorBooleano
                                 | valorBooleano AND valorBooleano
-                                | valorBooleano OR valorBooleano'''
+                                | valorBooleano OR valorBooleano
+                                | valorGramatico IGUAL valorMatematico
+                                | valorGramatico IGUAL valorGramatico'''
 
     if t[2] == '===':
         t[0] = t[1] == t[3]
@@ -328,7 +355,8 @@ def p_reglaSemanticaCondiciones(t):
         t[0] = t[1] and t[3]
     elif t[0] == '||':
         t[0] = t[1] or t[3]
-
+    elif t[0] == '=':
+        t[0] = t[1] = t[3]
 
 # Error rule for syntax errors
 
@@ -338,7 +366,7 @@ def p_error(t):
         resultado = "Error sintactico de tipo {} en el valor {}".format( str(t.type),str(t.value))
         print(resultado)
     else:
-        resultado = "Todo correcto : {}".format(t)
+        resultado = "Error sintactico : {}".format(t)
         print(resultado)
     resultado_gramatica.append(resultado)
 

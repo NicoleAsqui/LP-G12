@@ -74,6 +74,7 @@ tokens = [
     "MOD",
     "COLON",
     "DEC",
+    "INC",
     "ASIG_SUMA",
     "ASIG_MEN",
     "ASIG_DIV",
@@ -81,7 +82,6 @@ tokens = [
     "ASIG_BOR",
     "ASIG_BAN",
     "ASIG_XOR",
-    "COMILL",
     "ASIG_RESDU",
     "ASIG_EXPO",
     "ASIG_DE_I",
@@ -120,7 +120,7 @@ t_MOD = r'%'
 t_IGUAL = r'\='
 t_COLON = r'\:'
 t_DEC = r'--'
-t_COMILL = r'\"'
+t_INC = r'\+\+'
 t_DERECHA = r'\=>'
 
 
