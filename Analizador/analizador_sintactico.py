@@ -153,7 +153,6 @@ def p_expresion(t):
                 | valorBooleano
     '''
 
-
 def p_comparacionWhile(p):
     '''comparacionWhile : VARIABLE operadorComp valorMatematico
                         | valorBooleano
@@ -331,7 +330,7 @@ def p_error(t):
         resultado = "Error sintactico de tipo {} en el valor {}".format( str(t.type),str(t.value))
         print(resultado)
     else:
-        resultado = "Todo correcto : {}".format(t)
+        resultado = "Error sintactico {}".format(t)
         print(resultado)
     resultado_gramatica.append(resultado)
 
