@@ -72,6 +72,7 @@ def p_algoritmo(t):
                     | expresion_aritmetica
                     | console
                     | condiciones
+                    | estructuraTup
     '''
     t[0] = t[1]
 
@@ -82,6 +83,22 @@ def p_sentenciaDO(p):
 def p_estructuraMap(p):
     ''' estructuraMap : VAR VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
                     | LET VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
+    '''
+
+def p_estructuraTupla(p):
+    ''' estructuraTup : VAR VARIABLE COLON CIZQ tiposdatos CDER IGUAL CIZQ conjunto CDER PCOMA
+                    | LET VARIABLE COLON CIZQ tiposdatos CDER IGUAL CIZQ conjunto CDER PCOMA
+    '''
+
+
+def p_tiposdatos(p):
+    '''tiposdatos : STRING
+                    | NUMBER
+                    | BOOL
+                    | STRING COMA tiposdatos
+                    | NUMBER COMA tiposdatos
+                    | BOOL COMA tiposdatos
+
     '''
 
 def p_funcionesMap(p):
@@ -153,10 +170,10 @@ def p_expresion(t):
                 | valorBooleano
     '''
 
+
 def p_comparacionWhile(p):
     '''comparacionWhile : VARIABLE operadorComp valorMatematico
                         | valorBooleano
-                        | VARIABLE operadorComp VARIABLE
                         | valorMatematico operadorComp valorMatematico
     '''
 def p_comparacion(p):
@@ -313,16 +330,6 @@ def p_reglaSemanticaCondiciones(t):
         t[0] = t[1] or t[3]
 
 
-
-def p_reglaSemanticEstructuras(t):
-    '''reglaSemanticaEstructuras : valorBooleano COMA valorMatematico COMA valorGramatico
-                                | valorBooleano COMA valorBooleano COMA valorBooleano
-                                | valorMatematico COMA valorMatematico COMA valorMatematico
-                                | valorGramatico COMA valorGramatico COMA valorGramatico
-
-    '''
-
-
 # Error rule for syntax errors
 
 def p_error(t):
@@ -331,7 +338,7 @@ def p_error(t):
         resultado = "Error sintactico de tipo {} en el valor {}".format( str(t.type),str(t.value))
         print(resultado)
     else:
-        resultado = "Error sintactico {}".format(t)
+        resultado = "Todo correcto : {}".format(t)
         print(resultado)
     resultado_gramatica.append(resultado)
 

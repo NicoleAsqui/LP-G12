@@ -31,14 +31,17 @@ reserved = {
     "log": "LOG",
     "true":"TRUE",
     "false":"FALSE",
-    "Set":"SET",
+    "set":"SET",
     "add":"ADD",
     "has":"HAS",
     "index": "INDEX",
     "count": "COUNT",
     "len": "LEN",
     "Object": "OBJECT",
-    "forEach":"FOREACH"
+    "foreach":"FOREACH",
+    "string": "STRING",
+    "number": "NUMBER",
+    "boolean": "BOOL"
 }
 
 # Tokens
