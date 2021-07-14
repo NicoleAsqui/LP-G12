@@ -156,6 +156,7 @@ def p_expresion(t):
 def p_comparacionWhile(p):
     '''comparacionWhile : VARIABLE operadorComp valorMatematico
                         | valorBooleano
+                        | VARIABLE operadorComp VARIABLE
                         | valorMatematico operadorComp valorMatematico
     '''
 def p_comparacion(p):
