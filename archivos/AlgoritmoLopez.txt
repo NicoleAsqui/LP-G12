@@ -14,9 +14,9 @@ for(i=0;i<10;i--){console.log(2 +2);}
 function prueba(prueba1, prueba2){this.prueba1=prueba1;}
 function prueba(){2+2;}
 switch(prueba){case 1: "hoa"; break; default: a =1;}
-let c:[string,boolean] = ["hola",true];
-c.index("mundo");
-c.count(variable);
+let tupla:[string,boolean] = ["hola",true];
+tupla.index("mundo");
+tupla.count(variable);
 len(c);
 
 
