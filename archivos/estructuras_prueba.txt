@@ -1,17 +1,14 @@
-//estructura set
+const c = new set(["hola",1,true,"hola","hola","hola","hola","hola",1,5,4,2,6]);
 var c = new set(["hola",1,true,"hola","hola","hola","hola","hola",1,5,4,2,6]);
-var c:[string,number,boolean] = ["hola",15,true];
 c.add("hola");
 c.has(true);
-c.foreach((c) => { console.log();});
+c.foreach((c) => { console.log(dh);});
 
-//ejemplos arreglos
 let c = ["hola",15,true];
 c.push(15);
 c.pop();
 c.join();
 
-//tuplas 
 let c:[string,boolean] = ["hola",true];
 c.index("mundo");
 c.count(variable);

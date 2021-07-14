@@ -52,6 +52,7 @@ def p_codigo(t):
 
 def p_algoritmo(t):
     ''' algoritmo : asignacion
+                    | declarar
                     | sentenciaWHILE
                     | sentenciaIf
                     | comentarios
@@ -73,6 +74,7 @@ def p_algoritmo(t):
                     | console
                     | condiciones
                     | estructuraTup
+                    | VARIABLE
     '''
     t[0] = t[1]
 
@@ -83,11 +85,16 @@ def p_sentenciaDO(p):
 def p_estructuraMap(p):
     ''' estructuraMap : VAR VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
                     | LET VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
+                    | VAR VARIABLE IGUAL NEW SET PIZQ PDER PCOMA
+                    | LET VARIABLE IGUAL NEW SET PIZQ PDER PCOMA
+                    | CONST VARIABLE IGUAL NEW SET PIZQ CIZQ conjunto CDER PDER PCOMA
+                    | CONST VARIABLE IGUAL NEW SET PIZQ PDER PCOMA
     '''
 
 def p_estructuraTupla(p):
     ''' estructuraTup : VAR VARIABLE COLON CIZQ tiposdatos CDER IGUAL CIZQ conjunto CDER PCOMA
                     | LET VARIABLE COLON CIZQ tiposdatos CDER IGUAL CIZQ conjunto CDER PCOMA
+                    | CONST VARIABLE COLON CIZQ tiposdatos CDER IGUAL CIZQ conjunto CDER PCOMA
     '''
 
 
@@ -132,9 +139,17 @@ def p_conjunto(p):
                 | expresion COMA conjunto
     '''
 
+def p_declarar(p):
+    '''declarar : VAR VARIABLE PCOMA
+                | LET VARIABLE PCOMA
+
+    '''
 def p_asignacion(p):
     '''asignacion : VAR VARIABLE tipoasignacion expresion PCOMA
                 | LET VARIABLE tipoasignacion expresion PCOMA
+                | CONST VARIABLE tipoasignacion expresion PCOMA
+                | VARIABLE tipoasignacion expresion PCOMA
+
     '''
 def p_tipoasignacion(p):
     '''tipoasignacion : IGUAL
